@@ -54,7 +54,7 @@ import zlib
             encoded_lines += "\n\n" + self.encryptcode(f"""exec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())""")
         final_code = self.obfcode + encoded_lines
         final_code = pyminify(final_code)
-        return pyminify(self.encryptcode(final_code))
+        return final_code
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
