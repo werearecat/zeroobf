@@ -38,7 +38,7 @@ import zlib
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
-            encoded_lines += f"""exec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+            encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
         final_code = self.obfcode + encoded_lines
         final_code += f"\n\nexec({self.zeroobf}var)"
         return final_code
