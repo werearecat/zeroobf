@@ -1,4 +1,3 @@
-
 import random
 import base64
 import argparse
@@ -17,7 +16,8 @@ import zlib
 {self.zeroobf}var1 = ""
 {self.zeroobf}var2 = ""
 """
-    
+        print("ZeroObfuscator initialized.")
+
     def generate_var(self, length=10):
         return ''.join(f'__{random.randint(0, 255):02x}__zeroobf__' for _ in range(length))
 
@@ -32,7 +32,10 @@ import zlib
 
     def obfuscate_code(self, code):
         encoded_lines = ""
-        for line in code.splitlines():
+        total_lines = len(code.splitlines())
+        print(f"Obfuscating code: {total_lines} lines total.")
+        
+        for i, line in enumerate(code.splitlines(), start=1):
             encoded_line = base64.b64encode(line.encode('utf-8')).decode()
             encoded_lines_haha = f"""
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
@@ -41,7 +44,10 @@ import zlib
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+            print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
+
         final_code = self.obfcode + encoded_lines
         final_code += f"\n\nexec({self.zeroobf}var)"
-        return pyminify(final_code)
-
+        minified_code = pyminify(final_code)
+        print("Code obfuscation complete.")
+        return minified_code
