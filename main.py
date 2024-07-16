@@ -11,6 +11,7 @@ class ZeroObfuscator:
         self.obfcode = f"""
 import base64
 import zlib
+import marshal
 # https://github.com/werearecat/zeroobf
 # obf code
 {self.zeroobf}var = ""
