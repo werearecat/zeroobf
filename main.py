@@ -2,6 +2,7 @@ import random
 import base64
 import argparse
 import zlib
+import marshal
 from python_minifier import minify as pyminify
 
 class ZeroObfuscator:
@@ -17,6 +18,13 @@ import zlib
 {self.zeroobf}var2 = ""
 """
     
+    def encryptcode(self, codee):
+        compliecode = compile(codee, '<string>', 'exec')
+        dump = marshal.dumps(compliecode)
+        # Converting the marshaled code to a string that can be evaluated
+        dump_str = base64.b64encode(dump).decode('utf-8')
+        return f"exec(marshal.loads(base64.b64decode('{dump_str}')))"
+
     def generate_var(self, length=10):
         return ''.join(f'__{random.randint(0, 255):02x}__zeroobf__' for _ in range(length))
 
@@ -43,10 +51,10 @@ import zlib
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
-            encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+            encoded_lines += "\n\n" + self.encryptcode(f"""exec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())""")
         final_code = self.obfcode + encoded_lines
-        final_code += f"\n\nexec({self.zeroobf}var)"
-        return pyminify(final_code)
+        final_code = pyminify(final_code)
+        return self.encryptcode(final_code)
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
