@@ -35,7 +35,7 @@ import zlib
             encoded_lines_haha = f"""
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
-{self.zeroobf}var2 += f"{self.generate_random_zeroes(2000)}"
+{self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
