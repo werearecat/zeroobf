@@ -48,7 +48,9 @@ import zlib
 
         final_code = self.obfcode + encoded_lines
         final_code += f"\n\nexec({self.zeroobf}var)"
+        print("minify code")
         minified_code = pyminify(final_code)
+        print("minify {len(final_code)} bytes => {len(minified_code)} bytes")
         print("Code obfuscation complete.")
         return minified_code
 
