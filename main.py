@@ -1,8 +1,8 @@
+
 import random
 import base64
 import argparse
 import zlib
-import marshal
 from python_minifier import minify as pyminify
 
 class ZeroObfuscator:
@@ -11,7 +11,6 @@ class ZeroObfuscator:
         self.obfcode = f"""
 import base64
 import zlib
-import marshal
 # https://github.com/werearecat/zeroobf
 # obf code
 {self.zeroobf}var = ""
@@ -19,13 +18,6 @@ import marshal
 {self.zeroobf}var2 = ""
 """
     
-    def encryptcode(self, codee):
-        compiled_code = compile(codee, '<string>', 'exec')
-        dump = marshal.dumps(compiled_code)
-        # Converting the marshaled code to a Base64 string for inclusion in the obfuscated code
-        dump_str = base64.b64encode(dump).decode('utf-8')
-        return f"exec(marshal.loads(base64.b64decode('{dump_str}')))"
-
     def generate_var(self, length=10):
         return ''.join(f'__{random.randint(0, 255):02x}__zeroobf__' for _ in range(length))
 
@@ -38,27 +30,20 @@ import marshal
     def generate_random_zeroes(self, length):
         return '\\x00' * length
 
-    def obfuscate_string(self, s):
-        return ''.join(chr((ord(c) + 3) % 256) for c in s)
-
     def obfuscate_code(self, code):
         encoded_lines = ""
         for line in code.splitlines():
             encoded_line = base64.b64encode(line.encode('utf-8')).decode()
-            obfuscated_encoded_line = self.obfuscate_string(encoded_line)
             encoded_lines_haha = f"""
-{self.zeroobf}var1 += "{self.string_to_hex_fake(obfuscated_encoded_line)}"
+{self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
-            obfuscated_code_segment = f"""
-exec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())
-"""
-            encoded_lines += "\n\n" + self.encryptcode(obfuscated_code_segment)
+            encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
         final_code = self.obfcode + encoded_lines
-        final_code = pyminify(final_code)
-        return final_code
+        final_code += f"\n\nexec({self.zeroobf}var)"
+        return pyminify(final_code)
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
