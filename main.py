@@ -1,12 +1,14 @@
 import random
 import base64
 import argparse
+import
 
 class ZeroObfuscator:
     def __init__(self):
         self.zeroobf = self.generate_var(100)
         self.obfcode = f"""
 import base64
+import zlib
 # https://github.com/werearecat/zeroobf
 # obf code
 {self.zeroobf}var = ""
@@ -30,11 +32,12 @@ import base64
         encoded_lines = ""
         for line in code.splitlines():
             encoded_line = base64.b64encode(line.encode('utf-8')).decode()
-            encoded_lines += f"""
+            encoded_lines_haha = f"""
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
+            encoded_lines += f"""exec(zlib.decompress("{zlib.compress(encoded_lines_haha)}"))"""
         final_code = self.obfcode + encoded_lines
         final_code += f"\n\nexec({self.zeroobf}var)"
         return final_code
