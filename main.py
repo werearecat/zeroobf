@@ -6,6 +6,7 @@ from python_minifier import minify as pyminify
 
 class ZeroObfuscator:
     def __init__(self):
+        self._valid_identifiers = [chr(x) for x in range(1000) if self.set_variable_from_char(chr(x))]
         self.zeroobf = self.generate_var(100)
         self.obfcode = f"""
 import base64
@@ -18,8 +19,27 @@ import zlib
 """
         print("ZeroObfuscator initialized.")
 
+    def set_variable_from_char(self, char):
+        """
+        Thực hiện exec để gán giá trị cho biến có tên là ký tự đầu vào.
+        Nếu exec gây lỗi, hàm trả về False.
+        """
+        if len(char) != 1:
+            raise ValueError("Input must be a single character")
+        
+        try:
+            # Tạo lệnh exec để gán giá trị cho biến
+            exec(f"{char} = '{char}'")
+            # Trả về True nếu exec thành công
+            return True
+        except Exception as e:
+            # Xử lý lỗi và trả về False nếu có lỗi xảy ra
+            return False
+
     def generate_var(self, length=10):
-        return ''.join(f'隐藏_{random.randint(0, 255):02x}' for _ in range(length))
+        valid = random.choice(self._valid_identifiers)
+        valid2 = random.choice(self._valid_identifiers)
+        return ''.join(f'{valid}{valid2}_{random.randint(0, 255):02x}' for _ in range(length))
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
