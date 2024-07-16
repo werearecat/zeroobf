@@ -37,11 +37,8 @@ import zlib
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
-            encoded_lines += f"""exec(zlib.decompress("{zlib.compress(encoded_lines_haha)}"))"""
+            compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
+            encoded_lines += f"""exec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
         final_code = self.obfcode + encoded_lines
         final_code += f"\n\nexec({self.zeroobf}var)"
         return final_code
-
-# obf code
-# obfuscator = ZeroObfuscator()
-# obfuscated_code = obfuscator.obfuscate_code("print('hi')")
