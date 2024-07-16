@@ -19,7 +19,7 @@ import zlib
         print("ZeroObfuscator initialized.")
 
     def generate_var(self, length=10):
-        return ''.join(f'__{random.randint(0, 255):02x}__zeroobf__' for _ in range(length))
+        return ''.join(f'_{random.randint(0, 255):02x}' for _ in range(length))
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
