@@ -20,9 +20,9 @@ import marshal
 """
     
     def encryptcode(self, codee):
-        compliecode = compile(codee, '<string>', 'exec')
-        dump = marshal.dumps(compliecode)
-        # Converting the marshaled code to a string that can be evaluated
+        compiled_code = compile(codee, '<string>', 'exec')
+        dump = marshal.dumps(compiled_code)
+        # Converting the marshaled code to a Base64 string for inclusion in the obfuscated code
         dump_str = base64.b64encode(dump).decode('utf-8')
         return f"exec(marshal.loads(base64.b64decode('{dump_str}')))"
 
@@ -52,7 +52,10 @@ import marshal
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
-            encoded_lines += "\n\n" + self.encryptcode(f"""exec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())""")
+            obfuscated_code_segment = f"""
+exec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())
+"""
+            encoded_lines += "\n\n" + self.encryptcode(obfuscated_code_segment)
         final_code = self.obfcode + encoded_lines
         final_code = pyminify(final_code)
         return final_code
