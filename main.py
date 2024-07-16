@@ -39,6 +39,8 @@ import zlib
     def generate_var(self, length=10):
         valid = random.choice(self._valid_identifiers)
         valid2 = random.choice(self._valid_identifiers)
+        valid = vaild * 10
+        valid2 = vaild2 * 10
         return ''.join(f'{valid}{valid2}_{random.randint(0, 255):02x}' for _ in range(length))
 
     def string_to_hex(self, s):
