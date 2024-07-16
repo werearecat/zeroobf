@@ -29,7 +29,7 @@ import base64
     def obfuscate_code(self, code):
         encoded_lines = ""
         for line in code.splitlines():
-            encoded_line = base64.b64encode(line.encode('utf-8')).decode()
+            encoded_line = base64.b64encode(line.encode('utf-8')).decode() + "\n"
             encoded_lines += f"""
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode()
