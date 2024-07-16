@@ -41,6 +41,7 @@ import zlib
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+            print(f"obf {encoded_lines} byte")
         final_code = self.obfcode + encoded_lines
         final_code += f"\n\nexec({self.zeroobf}var)"
         return pyminify(final_code)
