@@ -29,12 +29,16 @@ import zlib
     def generate_random_zeroes(self, length):
         return '\\x00' * length
 
+    def obfuscate_string(self, s):
+        return ''.join(chr((ord(c) + 3) % 256) for c in s)
+
     def obfuscate_code(self, code):
         encoded_lines = ""
         for line in code.splitlines():
             encoded_line = base64.b64encode(line.encode('utf-8')).decode()
+            obfuscated_encoded_line = self.obfuscate_string(encoded_line)
             encoded_lines_haha = f"""
-{self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
+{self.zeroobf}var1 += "{self.string_to_hex_fake(obfuscated_encoded_line)}"
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
