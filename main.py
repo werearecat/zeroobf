@@ -1,7 +1,7 @@
 import random
 import base64
 import argparse
-import
+import zlib
 
 class ZeroObfuscator:
     def __init__(self):
