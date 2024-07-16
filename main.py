@@ -2,6 +2,7 @@ import random
 import base64
 import argparse
 import zlib
+from python_minifier import minify as pyminify
 
 class ZeroObfuscator:
     def __init__(self):
@@ -41,7 +42,7 @@ import zlib
             encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
         final_code = self.obfcode + encoded_lines
         final_code += f"\n\nexec({self.zeroobf}var)"
-        return final_code
+        return pyminify(final_code)
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
