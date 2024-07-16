@@ -19,13 +19,13 @@ import zlib
         print("ZeroObfuscator initialized.")
 
     def generate_var(self, length=10):
-        return ''.join(f'_{random.randint(0, 255):02x}' for _ in range(length))
+        return ''.join(f'隐藏_{random.randint(0, 255):02x}' for _ in range(length))
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
-        return ''.join(f'_{ord(c):02x}' for c in s)
+        return ''.join(f'隐藏_{ord(c):02x}' for c in s)
 
     def generate_random_zeroes(self, length):
         return '\\x00' * length
