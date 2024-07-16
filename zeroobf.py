@@ -25,7 +25,7 @@ import zlib
         return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
-        return ''.join(f'__{ord(c):02x}__zeroobf___\\x00\\x00' for c in s)
+        return ''.join(f'_{ord(c):02x}' for c in s)
 
     def generate_random_zeroes(self, length):
         return '\\x00' * length
