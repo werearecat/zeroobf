@@ -18,6 +18,8 @@ import marshal
 {self.zeroobf}var = ""
 {self.zeroobf}var1 = ""
 {self.zeroobf}var2 = ""
+def {self.zeroobf}python(code):
+    exec(compile(code, '<string>', 'exec'))
 """
         print("ZeroObfuscator initialized.")
 
@@ -68,11 +70,11 @@ import marshal
 """
             marshal_code = marshal.dumps(compile(encoded_lines_haha, '<string>', 'exec'))
             compressed_code = zlib.compress(marshal_code).hex()
-            encoded_lines += f"""\nexec(marshal.loads(zlib.decompress(bytes.fromhex("{compressed_code}"))))"""
+            encoded_lines += f"""\n{self.zeroobf}python(marshal.loads(zlib.decompress(bytes.fromhex("{compressed_code}"))))"""
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
         final_code = self.obfcode + encoded_lines
-        final_code += f"\n\nexec({self.zeroobf}var)"
+        final_code += f"\n\n{self.zeroobf}python({self.zeroobf}var)"
         print("Minifying code...")
         minified_code = pyminify(final_code)
         print(f"Minified {len(final_code)} bytes => {len(minified_code)} bytes")
