@@ -16,6 +16,7 @@ import zlib
 {self.zeroobf}var = ""
 {self.zeroobf}var1 = ""
 {self.zeroobf}var2 = ""
+{self.zeroobf}var3 = 0
 """
         print("ZeroObfuscator initialized.")
 
@@ -63,13 +64,15 @@ import zlib
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
+{self.zeroobf}var3 += 1
+if {self.zeroobf}var3 == {total_lines}:
+    exec({self.zeroobf}var)
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
         final_code = self.obfcode + encoded_lines
-        final_code += f"\n\nexec({self.zeroobf}var)"
         print("minify code")
         minified_code = pyminify(final_code)
         print(f"minify {len(final_code)} bytes => {len(minified_code)} bytes")
