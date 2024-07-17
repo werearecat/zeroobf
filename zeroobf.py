@@ -2,7 +2,6 @@ import random
 import base64
 import argparse
 import zlib
-from python_minifier import minify as pyminify
 
 class ZeroObfuscator:
     def __init__(self):
@@ -72,9 +71,9 @@ if {self.zeroobf}var3 == {total_lines}:
             encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
-        final_code = self.obfcode + encoded_lines
-        print("minify code")
-        minified_code = pyminify(final_code)
-        print(f"minify {len(final_code)} bytes => {len(minified_code)} bytes")
+        final_code_old = self.obfcode + encoded_lines
+        final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
+        
+        print(f"compress code {len(final_code_old)} bytes => {len(final_code)} bytes")
         print("Code obfuscation complete.")
-        return minified_code
+        return final_code
