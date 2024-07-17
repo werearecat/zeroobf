@@ -75,6 +75,5 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        print(f"compress code {len(final_code_old)} bytes => {len(final_code)} bytes")
-        print("Code obfuscation complete.")
-        return final_code
+        return final_code_old
+        # return final_code
