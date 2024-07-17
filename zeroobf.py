@@ -66,6 +66,7 @@ import zlib
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
     exec({self.zeroobf}var)
+    {self.zeroobf}var = ""
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
