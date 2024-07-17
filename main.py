@@ -2,6 +2,7 @@ import random
 import base64
 import argparse
 import zlib
+import marshal
 from python_minifier import minify as pyminify
 
 class ZeroObfuscator:
@@ -11,6 +12,7 @@ class ZeroObfuscator:
         self.obfcode = f"""
 import base64
 import zlib
+import marshal
 # https://github.com/werearecat/zeroobf
 # obf code
 {self.zeroobf}var = ""
@@ -64,8 +66,9 @@ import zlib
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 """
-            compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
-            encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+            marshal_code = marshal.dumps(compile(encoded_lines_haha, '<string>', 'exec'))
+            compressed_code = zlib.compress(marshal_code).hex()
+            encoded_lines += f"""\nexec(marshal.loads(zlib.decompress(bytes.fromhex("{compressed_code}")).decode()))"""
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
         final_code = self.obfcode + encoded_lines
