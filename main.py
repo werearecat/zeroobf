@@ -76,7 +76,7 @@ if {self.zeroobf}var3 == {total_lines}:
         
         print(f"compress code {len(final_code_old)} bytes => {len(final_code)} bytes")
         print("Code obfuscation complete.")
-        return minified_code
+        return final_code
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
