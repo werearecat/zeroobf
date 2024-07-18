@@ -38,7 +38,7 @@ import zlib
 
     def generate_var(self, length=10):
         length = random.randint(100, 250)
-        random_string = '\u0674' * length
+        random_string = '\t' * length
         return random_string
 
     def string_to_hex(self, s):
@@ -67,14 +67,14 @@ if {self.zeroobf}var3 == {total_lines}:
     {self.zeroobf}var = ""
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
-            encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+            encoded_lines += encoded_lines_haha
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old
-        # return final_code
+        return final_code_old.replace("var1", f"\t\t\t\t").replace("var2", f"\t\t\t\t\t").replace("var3", f"\t\t\t\t\t\t").replace("var", f"\t\t\t")
+        # return final_code.replace("var1", f"\t\t\t\t").replace("var2", f"\t\t\t\t\t").replace("var3", f"\t\t\t\t\t\t").replace("var", f"\t\t\t")
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
