@@ -41,14 +41,14 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 
     def generate_var(self, length=10):
         length = random.randint(100, 250)
-        random_string = '\u0685\u0674' * length
+        random_string = '\u0674\u0674' * length
         return random_string
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
-        return ''.join(f'\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674' for c in s)
+        return ''.join(f'\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674' for c in s)
 
     def generate_random_zeroes(self, length):
         return '\\x00' * length
@@ -79,8 +79,8 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674").replace("deobfuscate_string", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674")
-        # return final_code.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674").replace("deobfuscate_string", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674")
+        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
+        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
