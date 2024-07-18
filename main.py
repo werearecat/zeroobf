@@ -60,7 +60,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 3) % 256)) for c in s)
         print(f"Obfuscating code: {total_lines} lines total.")
         
         for i, line in enumerate(code.splitlines(), start=1):
-            encoded_line = self.string_to_hex(obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
+            encoded_line = obfuscate_string(base64.b64encode(line.encode('utf-8')).decode())
             encoded_lines_haha = f"""
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode(deobfuscate_string("{encoded_line}")).decode() + "\\n"
