@@ -37,11 +37,9 @@ import zlib
             return False
 
     def generate_var(self, length=10):
-        valid = random.choice(self._valid_identifiers)
-        valid2 = random.choice(self._valid_identifiers)
-        valid = valid * 10
-        valid2 = valid2 * 10
-        return ''.join(f'{valid}{valid2}_{random.randint(0, 255):02x}' for _ in range(length))
+        length = random.randint(100, 250)
+        random_string = '\u0674' * length
+        return random_string
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
