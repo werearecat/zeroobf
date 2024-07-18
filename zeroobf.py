@@ -16,9 +16,9 @@ import zlib
 {self.zeroobf}var1 = ""
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
+{self.zeroobf}隐藏 = exec
 """
         self.zeroexec = f"{self.zeroobf}隐藏"
-        self.zeroif = f"{self.zeroobf}隐藏_"
         print("ZeroObfuscator initialized.")
 
     def set_variable_from_char(self, char):
@@ -40,14 +40,14 @@ import zlib
 
     def generate_var(self, length=10):
         length = random.randint(100, 250)
-        random_string = '\t' * length
+        random_string = '\u0685\u0674' * length
         return random_string
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
-        return ''.join(f'\t\t\t\t\t' for c in s)
+        return ''.join(f'\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674' for c in s)
 
     def generate_random_zeroes(self, length):
         return '\\x00' * length
@@ -64,7 +64,7 @@ import zlib
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 {self.zeroobf}var3 += 1
-{self.zeroif} {self.zeroobf}var3 == {total_lines}:
+if {self.zeroobf}var3 == {total_lines}:
     {self.zeroexec}({self.zeroobf}var)
     {self.zeroobf}var = ""
 """
@@ -75,5 +75,5 @@ import zlib
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old.replace("var1", f"\t\t\t\t").replace("var2", f"\t\t\t\t\t").replace("var3", f"\t\t\t\t\t\t").replace("var", f"\t\t\t")
-        # return final_code.replace("var1", f"\t\t\t\t").replace("var2", f"\t\t\t\t\t").replace("var3", f"\t\t\t\t\t\t").replace("var", f"\t\t\t")
+        return final_code_old.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674")
+        # return final_code.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674")
