@@ -37,11 +37,9 @@ import zlib
             return False
 
     def generate_var(self, length=10):
-        valid = random.choice(self._valid_identifiers)
-        valid2 = random.choice(self._valid_identifiers)
-        valid = valid * 10
-        valid2 = valid2 * 10
-        return ''.join(f'{valid}{valid2}_{random.randint(0, 255):02x}' for _ in range(length))
+        length = random.randint(100, 250)
+        random_string = '\t' * length
+        return random_string
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
@@ -69,11 +67,11 @@ if {self.zeroobf}var3 == {total_lines}:
     {self.zeroobf}var = ""
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
-            encoded_lines += f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+            encoded_lines += encoded_lines_haha
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old
-        # return final_code
+        return final_code_old.replace("var1", f"\t\t\t\t").replace("var2", f"\t\t\t\t\t").replace("var3", f"\t\t\t\t\t\t").replace("var", f"\t\t\t")
+        # return final_code.replace("var1", f"\t\t\t\t").replace("var2", f"\t\t\t\t\t").replace("var3", f"\t\t\t\t\t\t").replace("var", f"\t\t\t")
