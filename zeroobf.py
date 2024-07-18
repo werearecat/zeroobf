@@ -60,6 +60,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 3) % 256)) for c in s)
         print(f"Obfuscating code: {total_lines} lines total.")
         
         for i, line in enumerate(code.splitlines(), start=1):
+            lmao = "\n{self.zeroobf}\u0674\u0674('')" * 5
             encoded_line = self.string_to_hex(obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
             encoded_lines_haha = f"""
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
@@ -69,6 +70,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 3) % 256)) for c in s)
 if {self.zeroobf}var3 == {total_lines}:
     {self.zeroexec}({self.zeroobf}var)
     {self.zeroobf}var = ""
+{lmao}
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += encoded_lines_haha
