@@ -77,8 +77,8 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674")
-        # return final_code.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674")
+        return final_code_old.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674").replace("deobfuscate_string", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674")
+        # return final_code.replace("var1", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var2", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var3", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674").replace("var", f"\u0685\u0674\u0685\u0674\u0685\u0674").replace("deobfuscate_string", f"\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674\u0685\u0674")
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
