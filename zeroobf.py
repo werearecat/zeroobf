@@ -17,6 +17,8 @@ import zlib
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
 """
+        self.zeroexec = "{self.zeroobf}隐藏"
+        self.zeroif = "{self.zeroobf}隐藏_"
         print("ZeroObfuscator initialized.")
 
     def set_variable_from_char(self, char):
@@ -62,8 +64,8 @@ import zlib
 {self.zeroobf}var += base64.b64decode("{encoded_line}").decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(20)}"
 {self.zeroobf}var3 += 1
-if {self.zeroobf}var3 == {total_lines}:
-    exec({self.zeroobf}var)
+{self.zeroif} {self.zeroobf}var3 == {total_lines}:
+    {self.zeroexec}({self.zeroobf}var)
     {self.zeroobf}var = ""
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
