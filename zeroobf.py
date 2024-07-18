@@ -17,8 +17,8 @@ import zlib
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
 """
-        self.zeroexec = "{self.zeroobf}隐藏"
-        self.zeroif = "{self.zeroobf}隐藏_"
+        self.zeroexec = f"{self.zeroobf}隐藏"
+        self.zeroif = f"{self.zeroobf}隐藏_"
         print("ZeroObfuscator initialized.")
 
     def set_variable_from_char(self, char):
