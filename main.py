@@ -17,7 +17,7 @@ import zlib
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
 {self.zeroobf}\u0674\u0674 = exec
-deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 3) % 256)) for c in s)
+deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 """
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
@@ -56,7 +56,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 3) % 256)) for c in s)
     def obfuscate_code(self, code):
         encoded_lines = ""
         total_lines = len(code.splitlines())
-        obfuscate_string = lambda s: ''.join(chr(((ord(c) + 3) % 256)) for c in s)
+        obfuscate_string = lambda s: ''.join(chr(((ord(c) + 200) % 256)) for c in s)
         print(f"Obfuscating code: {total_lines} lines total.")
         
         for i, line in enumerate(code.splitlines(), start=1):
