@@ -16,10 +16,10 @@ import zlib
 {self.zeroobf}var1 = ""
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
-{self.zeroobf}\u0674\u0674 = exec
+{self.zeroobf}\u0674\u0E47 = exec
 deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 """
-        self.zeroexec = f"{self.zeroobf}\u0674\u0674"
+        self.zeroexec = f"{self.zeroobf}\u0674\u0E47"
         print("ZeroObfuscator initialized.")
 
     def set_variable_from_char(self, char):
@@ -41,14 +41,14 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 
     def generate_var(self, length=10):
         length = random.randint(100, 250)
-        random_string = '\u0674\u0674' * length
+        random_string = '\u0674\u0E47' * length
         return random_string
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
-        return ''.join(f'\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674' for c in s)
+        return ''.join(f'\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47' for c in s)
 
     def generate_random_zeroes(self, length):
         return '\\x00' * length
@@ -60,7 +60,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
         print(f"Obfuscating code: {total_lines} lines total.")
         
         for i, line in enumerate(code.splitlines(), start=1):
-            lmao = f"\n{self.zeroobf}\u0674\u0674('')" * 5
+            lmao = f"\n{self.zeroobf}\u0674\u0E47('')" * 5
             encoded_line = self.string_to_hex(obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
             encoded_lines_haha = f"""
 {self.zeroobf}var1 += "{self.string_to_hex_fake(encoded_line)}"
@@ -79,8 +79,8 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
-        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
+        return final_code_old.replace("var1", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("var2", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("var3", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("var", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("deobfuscate_string", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47")
+        # return final_code.replace("var1", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("var2", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("var3", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("var", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47").replace("deobfuscate_string", f"\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47\u0674\u0E47")
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
