@@ -40,13 +40,13 @@ import zlib
 
     def generate_var(self):
         length = random.randint(100, 250)
-        return '\t' * length
+        return '\u200b' * length
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
-        return ''.join(f'\t\t\t\t\t\t' for _ in s)
+        return ''.join(f'隐藏_{ord(c):02x}' for _ in s)
 
     def generate_random_zeroes(self, length):
         return '\\x00' * length
