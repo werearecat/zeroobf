@@ -40,7 +40,7 @@ import zlib
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
 {self.zeroobf}\u0674\u0674 = exec
-{self.zeroobf}\u0674\u0674({self.string_to_hex(self.need)})
+{self.zeroobf}\u0674\u0674("{self.string_to_hex(self.need)}")
 """
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
