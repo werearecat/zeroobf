@@ -8,7 +8,6 @@ class ZeroObfuscator:
     def __init__(self):
         self._valid_identifiers = [chr(x) for x in range(1000) if self.set_variable_from_char(chr(x))]
         self.zeroobf = self.generate_var(100)
-        self.pyc = b"\x01\x08\x01\x04\x01\x08\x02\x08\x01\x08\x01\x08\x01\x08\x01\x08\x02\x1a\x01\x08\x01\x08\x01\x0a\x01\x08\x01\x04\x01\x08\x02\x08\x01\x08\x01\x08\x01\x08\x01\x08\x02\x1a\x01\x08\x01\x08\x01\x0a\x01\x08\x01\x04\x01\x08\x02\x08\x01\x08\x01\x08\x01\x08\x01\x08\x02\x1a\x01\x08\x01\x08\x01\x0a\x01\x08\x01\x04\x01\x08\x02\x08\x01\x08\x01\x08\x01\x08\x01\x08\x02\x1a\x01\x08\x01\x08\x01\x0a\x01\x08\x01\x04\x01\x08\x02\x08\x01\x08\x01\x08\x01\x08\x01\x08\x02\x1a\x01\x08\x01\x08\x01\x0a\x01\x08\x01\x04\x01\x08\x02\x08\x01\x08\x01\x08\x01\x08\x01\x08\x02\x1a\x01\x08\x01\x08\x01"
         self.obfcode = f"""
 import base64
 import zlib
@@ -20,7 +19,6 @@ import zlib
 {self.zeroobf}var3 = 0
 {self.zeroobf}\u0674\u0674 = exec
 deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
-{self.zeroobf}nothing = "{self.pyc}"
 """
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
@@ -48,13 +46,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
         return random_string
 
     def string_to_hex(self, s):
-        result = []
-        for c in s:
-            if not self.set_variable_from_char(c):
-                result.append(f'\\x{ord(c):02x}')
-            else:
-                result.append(c)
-        return ''.join(result)
+        return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
         return ''.join(f'\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674' for c in s)
