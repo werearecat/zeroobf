@@ -110,7 +110,7 @@ import zlib
             encoded_line = self.string_to_hex(self.obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
             encoded_lines_haha = f"""
 {self.string_to_hex_fake(encoded_line)} = "{self.string_to_hex_fake(encoded_line)}"
-{self.zeroobf}var += base64.b64decode(self.deobfuscate_string("{encoded_line}")).decode() + "\\n"
+{self.zeroobf}var += base64.b64decode(deobfuscate_string("{encoded_line}")).decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
