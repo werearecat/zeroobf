@@ -3,33 +3,11 @@ import base64
 import argparse
 import zlib
 
+
 class ZeroObfuscator:
     def __init__(self):
         self._valid_identifiers = [chr(x) for x in range(1000) if self.set_variable_from_char(chr(x))]
         self.zeroobf = self.generate_var(100)
-        self.need = f"""
-def obfuscate_string(input_string):
-    key_string = "<built-in function exec>"  # Khóa XOR cố định
-    key = [ord(c) for c in key_string]
-    key_length = len(key)
-    
-    # Mã hóa chuỗi
-    return ''.join(
-        chr(((ord(c) + 200) % 256) ^ key[i % key_length])
-        for i, c in enumerate(input_string)
-    )
-
-def deobfuscate_string(input_string):
-    key_string = str({self.zeroobf}\u0674\u0674)  # Khóa XOR cố định
-    key = [ord(c) for c in key_string]
-    key_length = len(key)
-    
-    # Giải mã chuỗi
-    return ''.join(
-        chr(((ord(c) - 200) % 256) ^ key[i % key_length])
-        for i, c in enumerate(input_string)
-    )
-"""
         self.obfcode = f"""
 import base64
 import zlib
@@ -40,7 +18,7 @@ import zlib
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
 {self.zeroobf}\u0674\u0674 = exec
-{self.need}
+deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 """
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
@@ -58,7 +36,7 @@ import zlib
             exec(f"{char} = '{char}'")
             # Trả về True nếu exec thành công
             return True
-        except Exception:
+        except Exception as e:
             # Xử lý lỗi và trả về False nếu có lỗi xảy ra
             return False
 
@@ -78,64 +56,34 @@ import zlib
     def generate_random_zeroes(self, length):
         return '\u0E47' * length
 
-    def obfuscate_string(self, input_string):
-        key_string = "<built-in function exec>"  # Khóa XOR cố định
-        key = [ord(c) for c in key_string]
-        key_length = len(key)
-        
-        # Mã hóa chuỗi
-        return ''.join(
-            chr(((ord(c) + 200) % 256) ^ key[i % key_length])
-            for i, c in enumerate(input_string)
-        )
-
-    def deobfuscate_string(self, input_string):
-        key_string = str(self.zeroobf + "\u0674\u0674")  # Khóa XOR cố định
-        key = [ord(c) for c in key_string]
-        key_length = len(key)
-        
-        # Giải mã chuỗi
-        return ''.join(
-            chr(((ord(c) - 200) % 256) ^ key[i % key_length])
-            for i, c in enumerate(input_string)
-        )
-
     def obfuscate_code(self, code):
         encoded_lines = ""
         total_lines = len(code.splitlines())
+        obfuscate_string = lambda s: ''.join(chr(((ord(c) + 200) % 256)) for c in s)
         print(f"Obfuscating code: {total_lines} lines total.")
         
         for i, line in enumerate(code.splitlines(), start=1):
-            # Debug: Print the original line
-            print(f"Original line {i}: {line}")
-
-            encoded_line = self.obfuscate_string(base64.b64encode(line.encode('utf-8')).decode())
-
-            # Debug: Print encoded line
-            print(f"Encoded line {i}: {encoded_line}")
-
-            # Ensure encoded_line is properly formatted as hex
-            encoded_line_hex = self.string_to_hex(encoded_line)
-            
+            lmao = f"\n{self.zeroobf}\u0674\u0674('')" * 5
+            encoded_line = self.string_to_hex(obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
             encoded_lines_haha = f"""
-{self.string_to_hex_fake(encoded_line_hex)} = "{self.string_to_hex_fake(encoded_line_hex)}"
+{self.string_to_hex_fake(encoded_line)} = "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode(deobfuscate_string("{encoded_line}")).decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
-    {self.zeroexec}({self.zeroobf}var)
+    {self.zeroexec}({self.zeroobf}var) if str({self.zeroexec}) is "{self.string_to_hex("<built-in function exec>")}" else None
     {self.zeroobf}var = ""
+{lmao}
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += encoded_lines_haha
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
         final_code_old = self.obfcode + encoded_lines
-        final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
+        final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("_string", f"s\u0674\u0674\u0674\u0674\u0674\u0674g")
-        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("_string", f"s\u0674\u0674\u0674\u0674\u0674\u0674g")
-
+        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
+        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
