@@ -41,15 +41,15 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
             return False
 
     def generate_var(self, length=10):
-        length = random.randint(100, 250)
-        random_string = '\u0674\u0674' * length
+        length = random.randint(10, 25)
+        random_string = '\u0674' * length
         return random_string
 
     def string_to_hex(self, s):
         return ''.join(f'\\x{ord(c):02x}' for c in s)
 
     def string_to_hex_fake(self, s):
-        return ''.join(f'\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674' for c in s)
+        return ''.join(f'\u0674' for c in s)
 
     def generate_random_zeroes(self, length):
         return '\u0E47' * length
