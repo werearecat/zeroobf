@@ -71,7 +71,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
-    {self.zeroexec}({self.zeroobf}var)
+    {self.zeroexec}({self.zeroobf}var) if str({self.zeroexec}) is "{self.string_to_hex("<built-in function exec>")}" else None
     {self.zeroobf}var = ""
 {lmao}
 """
