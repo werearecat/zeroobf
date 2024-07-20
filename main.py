@@ -3,7 +3,6 @@ import base64
 import argparse
 import zlib
 
-
 class ZeroObfuscator:
     def __init__(self):
         self._valid_identifiers = [chr(x) for x in range(1000) if self.set_variable_from_char(chr(x))]
@@ -59,7 +58,7 @@ import zlib
             exec(f"{char} = '{char}'")
             # Trả về True nếu exec thành công
             return True
-        except Exception as e:
+        except Exception:
             # Xử lý lỗi và trả về False nếu có lỗi xảy ra
             return False
 
@@ -103,7 +102,7 @@ if {self.zeroobf}var3 == {total_lines}:
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
 
         final_code_old = self.obfcode + encoded_lines
-        final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
+        final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{compressed_code}")).decode())"""
         
         return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674g")
         # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674g")
