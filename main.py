@@ -78,18 +78,39 @@ import zlib
     def generate_random_zeroes(self, length):
         return '\u0E47' * length
 
+    def obfuscate_string(self, input_string):
+        key_string = "<built-in function exec>"  # Khóa XOR cố định
+        key = [ord(c) for c in key_string]
+        key_length = len(key)
+        
+        # Mã hóa chuỗi
+        return ''.join(
+            chr(((ord(c) + 200) % 256) ^ key[i % key_length])
+            for i, c in enumerate(input_string)
+        )
+
+    def deobfuscate_string(self, input_string):
+        key_string = str(self.zeroobf + "\u0674\u0674")  # Khóa XOR cố định
+        key = [ord(c) for c in key_string]
+        key_length = len(key)
+        
+        # Giải mã chuỗi
+        return ''.join(
+            chr(((ord(c) - 200) % 256) ^ key[i % key_length])
+            for i, c in enumerate(input_string)
+        )
+
     def obfuscate_code(self, code):
         encoded_lines = ""
         total_lines = len(code.splitlines())
-        exec(self.need)
         print(f"Obfuscating code: {total_lines} lines total.")
         
         for i, line in enumerate(code.splitlines(), start=1):
             lmao = f"\n{self.zeroobf}\u0674\u0674('')" * 5
-            encoded_line = self.string_to_hex(obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
+            encoded_line = self.string_to_hex(self.obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
             encoded_lines_haha = f"""
 {self.string_to_hex_fake(encoded_line)} = "{self.string_to_hex_fake(encoded_line)}"
-{self.zeroobf}var += base64.b64decode(deobfuscate_string("{encoded_line}")).decode() + "\\n"
+{self.zeroobf}var += base64.b64decode(self.deobfuscate_string("{encoded_line}")).decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
