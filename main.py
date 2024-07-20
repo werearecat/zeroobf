@@ -7,7 +7,7 @@ class ZeroObfuscator:
     def __init__(self):
         self._valid_identifiers = [chr(x) for x in range(1000) if self.set_variable_from_char(chr(x))]
         self.zeroobf = self.generate_var(100)
-        self.need = """
+        self.need = f"""
 def obfuscate_string(input_string):
     key_string = "<built-in function exec>"  # Khóa XOR cố định
     key = [ord(c) for c in key_string]
