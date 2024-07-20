@@ -106,17 +106,25 @@ import zlib
         print(f"Obfuscating code: {total_lines} lines total.")
         
         for i, line in enumerate(code.splitlines(), start=1):
-            lmao = f"\n{self.zeroobf}\u0674\u0674('')" * 5
-            encoded_line = self.string_to_hex(self.obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
+            # Debug: Print the original line
+            print(f"Original line {i}: {line}")
+
+            encoded_line = self.obfuscate_string(base64.b64encode(line.encode('utf-8')).decode())
+
+            # Debug: Print encoded line
+            print(f"Encoded line {i}: {encoded_line}")
+
+            # Ensure encoded_line is properly formatted as hex
+            encoded_line_hex = self.string_to_hex(encoded_line)
+            
             encoded_lines_haha = f"""
-{self.string_to_hex_fake(encoded_line)} = "{self.string_to_hex_fake(encoded_line)}"
+{self.string_to_hex_fake(encoded_line_hex)} = "{self.string_to_hex_fake(encoded_line_hex)}"
 {self.zeroobf}var += base64.b64decode(deobfuscate_string("{encoded_line}")).decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
     {self.zeroexec}({self.zeroobf}var)
     {self.zeroobf}var = ""
-{lmao}
 """
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += encoded_lines_haha
