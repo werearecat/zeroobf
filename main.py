@@ -47,7 +47,13 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
         return random_string
 
     def string_to_hex(self, s):
-        return ''.join(f'\\x{ord(c):02x}' for c in s)
+        result = []
+        for c in s:
+            if not self.set_variable_from_char(c):
+                result.append(f'\\x{ord(c):02x}')
+            else:
+                result.append(c)
+        return ''.join(result)
 
     def string_to_hex_fake(self, s):
         return ''.join(f'\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674' for c in s)
