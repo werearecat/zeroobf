@@ -9,8 +9,8 @@ def obfcode(input_file, output_file):
     binary_code = ' '.join(format(ord(c), '08b') for c in code)
 
     length = 1
-    0 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
-    1 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
+    a0 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
+    a1 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
     space = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
     trash = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= 1000))
     binary_code_hidden = binary_code.replace("0", f"{0}").replace("1", f"{1}").replace(" ", f"{space}")
@@ -19,7 +19,7 @@ def obfcode(input_file, output_file):
     obfuscated_code = f"""
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
-exec("".join(chr(int(b, 2)) for b in "{trash}{binary_code_hidden}{trash}".replace("{0}", "0").replace("{1}", "1").replace("{space}", " ").replace("{trash}", "").split()))
+exec("".join(chr(int(b, 2)) for b in "{trash}{binary_code_hidden}{trash}".replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").replace("{trash}", "").split()))
     """
     
     # Ghi file với mã hóa UTF-8
