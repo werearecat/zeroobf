@@ -14,7 +14,7 @@ def obfcode(input_file, output_file):
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
 exec("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("\u0674", "0").replace("\u0E47", "1").split()))
-    """
+    """.replace(" ", f"\t")
     
     # Ghi file với mã hóa UTF-8
     with open(output_file, 'w', encoding='utf-8') as f:
