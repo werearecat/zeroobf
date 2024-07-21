@@ -9,8 +9,6 @@ class ZeroObfuscator:
         self._valid_identifiers = [chr(x) for x in range(1000) if self.set_variable_from_char(chr(x))]
         self.zeroobf = self.generate_var(100)
         self.obfcode = f"""
-import base64
-import zlib
 # https://github.com/werearecat/zeroobf
 # obf code
 {self.zeroobf}var = ""
@@ -19,6 +17,7 @@ import zlib
 {self.zeroobf}var3 = 0
 {self.zeroobf}\u0674\u0674 = exec
 deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
+base64 = __import__("{self.string_to_hex("base64")}")
 """
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
@@ -71,7 +70,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
-    {self.zeroexec}({self.zeroobf}var) if {len(str(line))} == len(str({self.zeroobf}var)) else None
+    {self.zeroexec}({self.zeroobf}var) if {len(str(code))} == len(str({self.zeroobf}var)) else None
     {self.zeroobf}var = ""
 {lmao}
 """
@@ -82,8 +81,8 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
-        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674")
+        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674")
+        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674")
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
