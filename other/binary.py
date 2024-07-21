@@ -4,18 +4,18 @@ def obfcode(input_file, output_file):
         code = f.read()
 
     # Chuyển mỗi ký tự thành mã nhị phân 8 bit
-    binary_code = ' '.join(format(ord(c), '08b') for c in code)
+    binary_code = ''.join(format(ord(c), '08b') for c in code)
     
     # Thay thế 0 và 1 bằng ký tự Unicode
-    binary_code_hidden = binary_code.replace("0", "\u0674\u0E47").replace("1", "\u0E47\u0E47")
+    binary_code_hidden = binary_code.replace("0", "\t").replace("1", "\r")
 
     # Tạo mã nguồn để giải mã và thực thi
     obfuscated_code = f"""
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
-exec("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("\u0674\u0E47", "1").replace("\u0674\u0E47", "0").split()))
-    """.replace(" ", f"\t")
-    
+exec("".join(chr(int(b, 2)) for b in '''{binary_code_hidden}'''.replace("\t", "0").replace("\u0E47", "1").split()))
+    """
+
     # Ghi file với mã hóa UTF-8
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(obfuscated_code)
