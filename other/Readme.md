@@ -5,5 +5,5 @@
 3.Done:code_obf.py
 ```
 ```
-if error code_obf.py try
+if error code_obf.py try [!](https://github.com/werearecat/zeroobf/blob/main/other/Readme.md#pathotherbinarypy)
 ```
