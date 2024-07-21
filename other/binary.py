@@ -16,7 +16,7 @@ def obfcode(input_file, output_file):
     a1 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
     space = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
     fake = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= 1000))
-    binary_code_hidden = binary_code.replace("0", f"{a0}").replace("1", f"{a1}").replace(" ", f"{space}")
+    binary_code_hidden = binary_code[::-1].replace("0", f"{a0}").replace("1", f"{a1}").replace(" ", f"{space}")
 
     # Tạo mã nguồn để giải mã và thực thi
     exec_ = "\u0674\u0674e\u0674\u0674x\u0674\u0674e\u0674\u0674c"
@@ -26,7 +26,7 @@ def obfcode(input_file, output_file):
 # made with chatgpt :)
 {'\n' * 1000}
 '''
-{exec_} = getattr(__import__('{string_to_hex("builtins")}'), '{string_to_hex("exec")}');{exec_}("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").replace("{fake}", "{fake}").split()))
+{exec_} = getattr(__import__('{string_to_hex("builtins")}'), '{string_to_hex("exec")}');{exec_}("".join(chr(int(b, 2)) for b in "{binary_code_hidden}"[::-1].replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").replace("{fake}", "{fake}").split()))
     """
     
     # Ghi file với mã hóa UTF-8
