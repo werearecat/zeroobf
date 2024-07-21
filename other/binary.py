@@ -1,5 +1,7 @@
 import random
 
+def string_to_hex(s):
+    return ''.join(f'\\x{ord(c):02x}' for c in s)
 def obfcode(input_file, output_file):
     # Đọc file với mã hóa UTF-8
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -16,10 +18,11 @@ def obfcode(input_file, output_file):
 
     # Thay thế các bit nhị phân bằng các ký tự tàng hình và thêm ký tự vớ vẩn
     binary_code_hidden = binary_code.replace("0", a0).replace("1", a1).replace(" ", space)
+    code1 = "{trash}{binary_code_hidden}{trash}"
     obfuscated_code = f"""
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
-exec("".join(chr(int(b, 2)) for b in "{trash}{binary_code_hidden}{trash}".replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").split()))
+exec("".join(chr(int(b, 2)) for b in "{string_to_hex(trash)}{string_to_hex(binary_code_hidden)}{string_to_hex(trash)}".replace("{string_to_hex(a0)}", "0").replace("{string_to_hex(a1)}", "1").replace("{string_to_hex(space)}", " ").replace("{string_to_hex(trash)}", "").split()))
     """
 
     # Ghi file với mã hóa UTF-8
