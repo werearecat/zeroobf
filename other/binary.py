@@ -33,4 +33,4 @@ def obfcode(input_file, output_file):
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(obfuscated_code)
 
-obfcode('code.txt', 'code_obf.txt')
+obfcode('code.py', 'code_obf.py')
