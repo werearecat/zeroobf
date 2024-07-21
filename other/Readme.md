@@ -4,4 +4,4 @@
 2.run other/binary.py
 3.Done:code_obf.py
 ```
-if error code_obf.py try [here](https://github.com/werearecat/zeroobf/blob/main/other/Readme.md#pathotherbinarypy)
+if error code_obf.py try run binary.py lazy remove char code \x00
