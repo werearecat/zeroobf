@@ -24,7 +24,7 @@ def obfcode(input_file, output_file):
 '''
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
-{'\n' * 1000}
+{chr(10) * 1000}
 '''
 {exec_} = getattr(__import__('{string_to_hex("builtins")}'), '{string_to_hex("exec")}');{exec_}("".join(chr(int(b, 2)) for b in "{binary_code_hidden}"[::-1].replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").replace("{fake}", "{fake}").split()))
     """
