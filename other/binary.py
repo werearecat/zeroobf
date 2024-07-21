@@ -28,7 +28,7 @@ def obfcode(input_file, output_file):
 # made with chatgpt :)
 {chr(10) * 1000}
 '''
-{exec_} = getattr(__import__('{string_to_hex("builtins")}'), '{string_to_hex("exec")}');{exec_}("".join(chr(int(b, 2)) for b in "{binary_code_hidden}"[::-len(str({exectest}))].replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").replace("{fake}", "{fake}").split()))
+{exec_} = getattr(__import__('{string_to_hex("builtins")}'), '{string_to_hex("exec")}');{exec_}("".join(chr(int(b, 2)) for b in "{binary_code_hidden}"[::-len(str({len(str(exectest))}))].replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").replace("{fake}", "{fake}").split()))
     """
     
     # Ghi file với mã hóa UTF-8
