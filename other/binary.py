@@ -21,8 +21,11 @@ def obfcode(input_file, output_file):
     # Tạo mã nguồn để giải mã và thực thi
     exec_ = "\u0674\u0674e\u0674\u0674x\u0674\u0674e\u0674\u0674c"
     obfuscated_code = f"""
+'''
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
+{'\n' * 1000}
+'''
 {exec_} = getattr(__import__('{string_to_hex("builtins")}'), '{string_to_hex("exec")}');{exec_}("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("{a0}", "0").replace("{a1}", "1").replace("{space}", " ").replace("{fake}", "{fake}").split()))
     """
     
