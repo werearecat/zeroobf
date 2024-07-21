@@ -11,13 +11,15 @@ class ZeroObfuscator:
         self.obfcode = f"""
 # https://github.com/werearecat/zeroobf
 # obf code
+base64 = __import__("{self.string_to_hex("base64")}")
+
 {self.zeroobf}var = ""
 {self.zeroobf}var1 = ""
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
-{self.zeroobf}\u0674\u0674 = exec
+{self.zeroobf}\u0674\u0674 = getattr(__import__('{self.string_to_hex("builtins")}'), '{self.string_to_hex("exec")}')
 deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
-base64 = __import__("{self.string_to_hex("base64")}")
+
 """
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
