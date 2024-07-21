@@ -1,3 +1,5 @@
+import random
+
 def obfcode(input_file, output_file):
     # Đọc file với mã hóa UTF-8
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -5,15 +7,18 @@ def obfcode(input_file, output_file):
 
     # Chuyển mỗi ký tự thành mã nhị phân 8 bit
     binary_code = ' '.join(format(ord(c), '08b') for c in code)
-    
-    # Thay thế 0 và 1 bằng ký tự Unicode
-    binary_code_hidden = binary_code.replace("0", "\u200B").replace("1", "\u200C").replace("1", "\u200C").replace(" ", "\u200D")
+
+    length = 1
+    0 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
+    1 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
+    space = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
+    binary_code_hidden = binary_code.replace("0", f"{0}").replace("1", f"{1}").replace(" ", f"{space}")
 
     # Tạo mã nguồn để giải mã và thực thi
     obfuscated_code = f"""
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
-exec("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("\u200B", "0").replace("\u200C", "1").replace("\u200D", " ").split()))
+exec("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("{0}", "0").replace("{1}", "1").replace("{space}", " ").split()))
     """
     
     # Ghi file với mã hóa UTF-8
