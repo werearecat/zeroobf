@@ -1,6 +1,8 @@
+import argparse
+
 def obfcode(s):
     code = """
-# https://github.com/werearecat/zeroobf
+# https://github.com/werearecat/1lineobf
 # no name :)
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t;\u0E47 = '';
 """
@@ -9,7 +11,7 @@ def obfcode(s):
     return code
 
 def main():
-    parser = argparse.ArgumentParser(description='Zero Obfuscator')
+    parser = argparse.ArgumentParser(description='1line Obfuscator')
     parser.add_argument('-i', '--input', required=True, help='Input file')
     parser.add_argument('-o', '--output', required=True, help='Output file')
     
