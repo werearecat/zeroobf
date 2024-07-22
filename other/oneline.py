@@ -4,10 +4,11 @@ def obfcode(s):
     code = """
 # https://github.com/werearecat/1lineobf
 # no name :)
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t;\u0E47 = '';
+\u0674 = '';
 """
-    code += ''.join(f"""\u0E47+='\\x{ord(c):02x}';""" for c in s)
-    code += 'exec(\u0E47);\u0E47=""'
+    code += ''.join(f"""\u0674+='\\x{ord(c):02x}';""" for c in s)
+    code += 'exec(\u0674)'
+    code += ';\u0674=""'
     return code
 
 def main():
