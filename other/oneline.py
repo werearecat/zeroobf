@@ -5,7 +5,7 @@ def obfcode(s):
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t;\u0E47 = '';
 """
     code += ''.join(f"""\u0E47+='\\x{ord(c):02x}';""" for c in s)
-    code += 'exec(a)'
+    code += 'exec(\u0E47);\u0E47=""'
     return code
 
 def main():
