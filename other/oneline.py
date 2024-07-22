@@ -2,7 +2,7 @@ import argparse
 
 def obfcode(s):
     code = """
-# https://github.com/werearecat/1lineobf
+# https://github.com/werearecat/zeroobf
 # no name :)
 \u0674 = '';
 """
