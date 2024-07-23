@@ -12,9 +12,10 @@ def obfcode(input_file, output_file):
     binary_code = ' '.join(format(ord(c), '08b') for c in code)
 
     length = 1
-    a0 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
-    a1 = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
-    space = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= length))
+    
+    a0 = "\u005F"
+    a1 = "_"
+    space = "\t"
     fake = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= 1000))
     binary_code_hidden = binary_code[::-1].replace("0", f"{a0}").replace("1", f"{a1}").replace(" ", f"{space}")
 
