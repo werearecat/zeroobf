@@ -15,8 +15,8 @@ def obfcode(input_file, output_file):
     
     a0 = "\u005F"
     a1 = "_"
-    space = "\t"
-    fake = "".join(random.choices(["\xa0", chr(8239)] + [chr(x) for x in range(8192, 8208)], k= 1000))
+    space = "\u200D"
+    fake = "\u005F_\u005F__\u005F___\u005F_"
     binary_code_hidden = binary_code[::-1].replace("0", f"{a0}").replace("1", f"{a1}").replace(" ", f"{space}")
 
     # Tạo mã nguồn để giải mã và thực thi
