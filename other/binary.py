@@ -7,13 +7,13 @@ def obfcode(input_file, output_file):
     binary_code = ' '.join(format(ord(c), '08b') for c in code)
     
     # Thay thế 0 và 1 bằng ký tự Unicode
-    binary_code_hidden = binary_code.replace("0", "").replace("1", "").replace("1", "\u200C").replace(" ", "\t")
+    binary_code_hidden = binary_code.replace("0", "").replace("1", "").replace("1", "\u200C").replace(" ", "")
 
     # Tạo mã nguồn để giải mã và thực thi
     obfuscated_code = f"""
 # https://github.com/werearecat/zeroobf
 # made with chatgpt :)
-exec("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("", "0").replace("", "1").replace("\t", " ").split()))
+exec("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("", "0").replace("", "1").replace("", " ").split()))
     """
     
     # Ghi file với mã hóa UTF-8
