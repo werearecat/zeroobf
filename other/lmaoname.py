@@ -14,7 +14,7 @@ def custom_substitution(codee):
 
 def functionobf(x):
     x = f"""getattr(__import__(base64.b64decode('YnVpbHRpbnM=').decode('utf-8')), base64.b64decode('{base64.b64encode(x).decode()}').decode('utf-8'))"""
-    return x
+    return x.replace("base64", f"__import__('base64')")
 
 def super_obfcode(codee):
     # Compile and marshal the code
