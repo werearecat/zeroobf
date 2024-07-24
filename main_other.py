@@ -2,7 +2,6 @@ import random
 import base64
 import argparse
 import zlib
-from python_minifier import minify as pyminify
 
 def obfcode(s):
     s = s.replace("\u0674", "a")
