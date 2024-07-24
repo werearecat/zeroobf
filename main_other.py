@@ -2,7 +2,6 @@ import random
 import base64
 import argparse
 import zlib
-from python_minifier import minify as pyminify
 
 def obfcode(s):
     s = s.replace("\u0674", "a")
@@ -95,8 +94,8 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return pyminify(final_code_old)
-        # return pyminify(final_code)
+        return final_code_old
+        # return final_code
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
