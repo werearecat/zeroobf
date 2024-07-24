@@ -16,8 +16,20 @@ def functionobf(x):
     x = f"""getattr(__import__(base64.b64decode('YnVpbHRpbnM=').decode('utf-8')), base64.b64decode('{base64.b64encode(x).decode()}').decode('utf-8'))"""
     return x.replace("base64", f"__import__('base64')")
 
+def functionobfall(code):
+    """Replace all built-in function names in the code with their obfuscated versions."""
+    # Get a list of all built-in functions, excluding 'getattr' and '__import__'
+    function_names = [name for name in dir(builtins) if callable(getattr(builtins, name)) and name not in ['getattr', '__import__']]
+
+    # Replace each function name in the code with its obfuscated version
+    for func_name in function_names:
+        code = code.replace(func_name, functionobf(func_name))
+    
+    return code
+
 def super_obfcode(codee):
     # Compile and marshal the code
+    codee = functionobfall(codee)
     compiled_code = compile(codee, '<string>', 'exec')
     marshaled_code = marshal.dumps(compiled_code)
     # Apply Base64 encoding
