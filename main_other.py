@@ -4,8 +4,8 @@ import argparse
 import zlib
 
 def obfcode(s):
-    s = s.replace("\u0674", "a")
     s = s.replace("base64", "__import__('\\x62\\x61\\x73\\x65\\x36\\x34')")
+    s = s.replace("deobfuscate_string", "(lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s))")
     code = """
 # https://github.com/werearecat/zeroobf
 # no name :)
@@ -30,8 +30,6 @@ class ZeroObfuscator:
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
 {self.zeroobf}\u0674\u0674 = getattr(__import__('{self.string_to_hex("builtins")}'), '{self.string_to_hex("exec")}')
-deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
-
 """.replace("\u0674", "a")
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
