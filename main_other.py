@@ -8,12 +8,12 @@ def obfcode(s):
     code = """
 # https://github.com/werearecat/zeroobf
 # no name :)
-\u0674 = ''
+\u0674 = '';
 """
-    code += ''.join(f"""+'\\x{ord(c):02x}'""" for c in s)
-    code += '\nexec(\u0674)'
+    code += ''.join(f"""\u0674+='\\x{ord(c):02x}';""" for c in s)
+    code += 'exec(\u0674)'.replace("exec", """getattr(__import__(base64.b64decode('YnVpbHRpbnM=').decode('utf-8')), base64.b64decode('ZXhlYw==').decode('utf-8'))""")
     code += ';\u0674=""'
-    return code.replace("exec", """getattr(__import__(base64.b64decode('YnVpbHRpbnM=').decode('utf-8')), base64.b64decode('ZXhlYw==').decode('utf-8'))""")
+    return code.replace(";", "\n")
 
 class ZeroObfuscator:
     def __init__(self):
