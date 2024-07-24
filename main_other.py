@@ -3,42 +3,8 @@ import base64
 import argparse
 import zlib
 from python_minifier import minify as pyminify
-import marshal
 
-def encryptcode(codee):
-    # Tối giản mã nguồn (minify)
-    print(f"{len(codee)} bytes no minify")
-    codee = pyminify(codee)
-    print(f"{len(codee)} bytes minify")
-    compliecode = compile(codee, '<string>', 'exec')
-    dump = marshal.dumps(compliecode)
-    dump_repr = repr(dump)  # Chuyển đổi thành chuỗi biểu diễn
-    return f"exec(__import__('marshal').loads({dump_repr}))"
-
-def obfcode(input_file, output_file):
-    # Đọc file với mã hóa UTF-8
-    with open(input_file, 'r', encoding='utf-8') as f:
-        code = f.read()
-
-    # Chuyển mỗi ký tự thành mã nhị phân 8 bit
-    binary_code = ' '.join(format(ord(c), '08b') for c in code)
-    
-    # Thay thế 0 và 1 bằng ký tự Unicode
-    binary_code_hidden = binary_code.replace("0", "\\t").replace("1", "\\r").replace(" ", "\\n")
-
-    # Tạo mã nguồn để giải mã và thực thi
-    obfuscated_code = f"""
-# https://github.com/werearecat/zeroobf
-# made with chatgpt :)
-exec("".join(chr(int(b, 2)) for b in "{binary_code_hidden}".replace("\\t", "0").replace("\\r", "1").replace("\\n", " ").split()))
-    """
-    
-    print(f"{len(str(obfuscated_code))} bytes binary obf")
-    # Ghi file với mã hóa UTF-8
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write(obfuscated_code)
-
-def obfcodee(s):
+def obfcode(s):
     code = """
 # https://github.com/werearecat/zeroobf
 # no name :)
@@ -47,7 +13,6 @@ def obfcodee(s):
     code += ''.join(f"""\u0674+='\\x{ord(c):02x}';""" for c in s)
     code += 'exec(\u0674)'
     code += ';\u0674=""'
-    print(f"{len(str(code))} bytes hex")
     return code
 
 class ZeroObfuscator:
@@ -57,7 +22,6 @@ class ZeroObfuscator:
         self.obfcode = f"""
 # https://github.com/werearecat/zeroobf
 # obf code
-
 base64 = __import__("{self.string_to_hex("base64")}")
 
 {self.zeroobf}var = ""
@@ -113,7 +77,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
         for i, line in enumerate(code.splitlines(), start=1):
             lmao = f"\n{self.zeroobf}\u0674\u0674('')" * 5
             encoded_line = self.string_to_hex(obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
-            encoded_lines_haha = f"""
+            encoded_lines_haha = obfcode(f"""
 {self.string_to_hex_fake(encoded_line)} = "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode(deobfuscate_string("{encoded_line}")).decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
@@ -122,7 +86,7 @@ if {self.zeroobf}var3 == {total_lines}:
     {self.zeroexec}({self.zeroobf}var) if {len(str(code))} == len(str({self.zeroobf}var)) else None
     {self.zeroobf}var = ""
 {lmao}
-"""
+""")
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += encoded_lines_haha
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
@@ -130,8 +94,8 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674")
-        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674")
+        return pyminify(final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674"))
+        # return pyminify(final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674"))
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
@@ -145,12 +109,11 @@ def main():
         code = file.read()
     
     obfuscator = ZeroObfuscator()
-    obfuscated_code = encryptcode(obfcodee(obfuscator.obfuscate_code(code)))
+    obfuscated_code = obfuscator.obfuscate_code(code)
     
     print(f"Writing obfuscated code to: {args.output}")
     with open(args.output, 'w', encoding='utf-8') as file:
         file.write(obfuscated_code)
-    obfcode(args.output, args.output)
 
 if __name__ == '__main__':
     main()
