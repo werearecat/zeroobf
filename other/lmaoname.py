@@ -2,6 +2,7 @@ import random
 import base64
 import argparse
 import zlib
+import builtins
 from python_minifier import minify as pyminify
 
 def generate_obfuscated_name(name):
