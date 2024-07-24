@@ -5,6 +5,7 @@ import zlib
 
 def obfcode(s):
     s = s.replace("\u0674", "a")
+    s = s.replace("base64", "__import__('\\x62\\x61\\x73\\x65\\x36\\x34')")
     code = """
 # https://github.com/werearecat/zeroobf
 # no name :)
@@ -22,7 +23,7 @@ class ZeroObfuscator:
         self.obfcode = f"""
 # https://github.com/werearecat/zeroobf
 # obf code
-base64 = __import__("{self.string_to_hex("base64")}")
+
 
 {self.zeroobf}var = ""
 {self.zeroobf}var1 = ""
