@@ -1,7 +1,9 @@
 import random
+import string
 import base64
 import argparse
 import zlib
+import re
 import builtins
 from python_minifier import minify as pyminify
 
@@ -32,7 +34,6 @@ def functionobf(code):
     
     return obfuscated_code
 
-
 def obfcode(s):
     s = s.replace("\u0674", "a")
     code = """
@@ -52,15 +53,15 @@ class ZeroObfuscator:
         self.obfcode = f"""
 # https://github.com/werearecat/zeroobf
 # obf code
-base64 = __import__("{self.string_to_hex("base64")}")
+base64 = __import__("{self.string_to_hex('base64')}")
+builtins = __import__("{self.string_to_hex('builtins')}")
 
 {self.zeroobf}var = ""
 {self.zeroobf}var1 = ""
 {self.zeroobf}var2 = ""
 {self.zeroobf}var3 = 0
-{self.zeroobf}\u0674\u0674 = getattr(__import__('{self.string_to_hex("builtins")}'), '{self.string_to_hex("exec")}')
+{self.zeroobf}\u0674\u0674 = getattr(builtins, '{self.string_to_hex('exec')}')
 deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
-
 """.replace("\u0674", "a")
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
@@ -78,7 +79,7 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
             exec(f"{char} = '{char}'")
             # Trả về True nếu exec thành công
             return True
-        except Exception as e:
+        except Exception:
             # Xử lý lỗi và trả về False nếu có lỗi xảy ra
             return False
 
@@ -119,7 +120,7 @@ if {self.zeroobf}var3 == {total_lines}:
 """)
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += encoded_lines_haha
-            print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
+            print(f"Processed line {i}/{total_lines}. Now {len(encoded_lines)} bytes")
 
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
