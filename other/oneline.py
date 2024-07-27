@@ -1,14 +1,13 @@
 import argparse
 
 def obfcode(s):
+    XD = ''.join(f"""{{"\\x{ord(c):02x}"}}""" for c in s)
     code = """
 # https://github.com/werearecat/zeroobf
 # no name :)
-\u0674 = '';
+exec(f"""
+{XD}""")
 """
-    code += ''.join(f"""\u0674+='\\x{ord(c):02x}';""" for c in s)
-    code += 'exec(\u0674)'
-    code += ';\u0674=""'
     return code
 
 def main():
