@@ -1,12 +1,11 @@
 import argparse
 
 def obfcode(s):
-    XD = ''.join(f"""{{"\\x{ord(c):02x}"}}""" for c in s)
+    XD = ''.join(f"""+'\\x{ord(c):02x}}}'""" for c in s)
     code = f"""
 # https://github.com/werearecat/zeroobf
 # no name :)
-exec(f'''
-{XD}''')
+exec(''{XD})
 """
     return code
 
