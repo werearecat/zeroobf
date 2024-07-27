@@ -5,8 +5,8 @@ def obfcode(s):
     code = """
 # https://github.com/werearecat/zeroobf
 # no name :)
-exec(f"""
-{XD}""")
+exec(f'''
+{XD}''')
 """
     return code
 
