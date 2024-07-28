@@ -1,7 +1,8 @@
 import argparse
 
 def obfcode(s):
-    XD = ''.join(f"""+chr(ord('A') + {int(ord(c) - ord('A'))})""" for c in s)
+    newline = "\n"
+    XD = ''.join(f"""+chr(ord('\\n') + {int(ord(c) - ord(newline))})""" for c in s)
     code = f"""
 # https://github.com/werearecat/zeroobf
 # no name :)
