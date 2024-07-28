@@ -10,14 +10,14 @@ exec(''{XD})
 """
     code = code.replace("chr(ord('\\n') + 0)", "'\\n'") # new line
 
-    code = code.replace("chr(ord('\n') + 38)", "str(False + False + False + False + False + False + False + False + False + False)") # 0
+    code = code.replace("chr(ord('\n') + 38)", "str(len(str("")))") # 0
     code = code.replace("chr(ord('\n') + 39)", "str(True + False + False + False + False + False + False + False + False + False)") # 1
     code = code.replace("chr(ord('\\n') + 40)", "str(True + True + False + False + False + False + False + False + False + False)") # 2
-    code = code.replace("chr(ord('\\n') + 41)", "str(True + True + True + False + False + False + False + False + False + False)") # 3
+    code = code.replace("chr(ord('\\n') + 41)", "str(len(str("len")))") # 3
     code = code.replace("chr(ord('\\n') + 42)", "str(len(str("exec")))") # 4
     code = code.replace("chr(ord('\\n') + 43)", "str(True + True + True + True + True + False + False + False + False + False)") # 5
     code = code.replace("chr(ord('\\n') + 44)", "str(True + True + True + True + True + True + False + False + False + False)") # 6
-    code = code.replace("chr(ord('\\n') + 45)", "str(True + True + True + True + True + True + True + False + False + False)") # 7
+    code = code.replace("chr(ord('\\n') + 45)", "str(len(str("1+1x2=1")))") # 7
     code = code.replace("chr(ord('\\n') + 46)", "str(True + True + True + True + True + True + True + True + False + False)") # 8
     code = code.replace("chr(ord('\\n') + 47)", "str(True + True + True + True + True + True + True + True + True + False)") # 9
     
