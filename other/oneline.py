@@ -8,6 +8,7 @@ def obfcode(s):
 # no name :)
 exec(''{XD})
 """
+    code = code.replace("chr(ord('\\n') + 0)", "'\\n'")
     return code
 
 def main():
