@@ -1,6 +1,13 @@
 import argparse
+import marshal
+
+def encryptcode(codee):
+    compliecode = compile(codee, '<string>', 'exec')
+    dump = marshal.dumps(compliecode)
+    return f"exec(marshal.loads({dump}))"
 
 def obfcode(s):
+    s = encryptcode(s)
     XD_Anti = chr(len(str(exec)))
     XD_Anti2 = "chr(len(str(\u0674\u0674\u0674)))"
     XD = ''.join(f"""+chr(ord({XD_Anti2}) + {int(ord(c) - ord(XD_Anti))})""" for c in s)
