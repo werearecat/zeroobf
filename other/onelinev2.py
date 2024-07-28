@@ -25,6 +25,14 @@ def obfcode(s):
 # you are good
 exec("{string_to_hex(split_string1(s))}" + "{string_to_hex(split_string2(s))}")
 """
+    s = f"""
+# you are good
+exec("{string_to_hex(split_string1(s))}" + "{string_to_hex(split_string2(s))}")
+"""
+    s = f"""
+# you are good
+exec("{string_to_hex(split_string1(s))}" + "{string_to_hex(split_string2(s))}")
+"""
     XD_Anti = chr(len(str(exec)))
     XD_Anti2 = "chr(len(str(\u0674\u0674\u0674)))"
     XD = ''.join(f"""+chr(ord({XD_Anti2}) + {int(ord(c) - ord(XD_Anti))})""" for c in s)
