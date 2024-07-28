@@ -22,7 +22,7 @@ exec(''{XD})
     code = code.replace("chr(ord('\\n') + 47)", "str(True + True + True + True + True + True + True + True + True + False)") # 9
     
     code = code.replace("True", "([]==[])").replace("False", "(()==[])")
-    return code
+    return f"exec({str(code)})"
 
 def main():
     parser = argparse.ArgumentParser(description='1line Obfuscator')
