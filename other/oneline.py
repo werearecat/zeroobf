@@ -17,7 +17,7 @@ exec(''{XD})
     code = code.replace("chr(ord('\\n') + 42)", "str(len(str("exec")))") # 4
     code = code.replace("chr(ord('\\n') + 43)", "str(True + True + True + True + True + False + False + False + False + False)") # 5
     code = code.replace("chr(ord('\\n') + 44)", "str(True + True + True + True + True + True + False + False + False + False)") # 6
-    code = code.replace("chr(ord('\\n') + 45)", "str(len(str("1+1x2=1")))") # 7
+    code = code.replace("chr(ord('\\n') + 45)", "str(len(str('1+1x2=1')))") # 7
     code = code.replace("chr(ord('\\n') + 46)", "str(True + True + True + True + True + True + True + True + False + False)") # 8
     code = code.replace("chr(ord('\\n') + 47)", "str(True + True + True + True + True + True + True + True + True + False)") # 9
     
