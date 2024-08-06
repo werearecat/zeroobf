@@ -14,11 +14,11 @@ def encode(text):
 
 def obfcode(s):
     newline = "\n"
-    XD = ''.join(f"""+WANNACRY(chr({ord(encode(c))}))""" for c in s)
+    XD = ''.join(f"""+WANNACRY({ord(encode(c))})""" for c in s)
     code = f"""
 # https://github.com/werearecat/zeroobf
 # no name :)
-def WANNACRY(encoded_text):A=[ord(A)-3 for A in encoded_text];B=''.join([chr(A)for A in A]);C=B[::-1];return C
+def WANNACRY(encoded_int):A=chr(encoded_int);B=[ord(A)-3 for A in A];C=''.join([chr(A)for A in B]);D=C[::-1];return D
 exec(''{XD})
 """
     code = code.replace("chr(ord('\\n') + 0)", "'\\n'")
