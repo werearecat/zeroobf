@@ -22,7 +22,7 @@ def WANNACRY(encoded_text):A=[ord(A)-3 for A in encoded_text];B=''.join([chr(A)f
 exec(''{XD})
 """
     code = code.replace("chr(ord('\\n') + 0)", "'\\n'")
-    code = code.replace("WANNACRY", "'A'")
+    code = code.replace("WANNACRY", "A")
     return code
 
 def main():
