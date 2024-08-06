@@ -22,7 +22,7 @@ def obfcode(s):
 def WANNACRY(encoded_int):A=chr(encoded_int);B=[ord(A)-3 for A in A];C=''.join([chr(A)for A in B]);D=C[::-1];return D
 exec(''{XD})
 """
-    code = code.replace("", "")
+    code = code.replace("WANNACRY(13)", "'\\n'")
     code = code.replace("WANNACRY", "A")
     return code
 
