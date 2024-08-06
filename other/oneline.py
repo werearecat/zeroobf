@@ -1,28 +1,29 @@
 import argparse
 
+def encode(text):
+    # Bước 1: Đảo ngược chuỗi
+    reversed_text = text[::-1]
+    
+    # Bước 2: Chuyển đổi từng ký tự thành mã ASCII và cộng thêm một giá trị cố định (ví dụ 3)
+    encoded_chars = [(ord(char) + 3) for char in reversed_text]
+    
+    # Bước 3: Chuyển đổi lại mã ASCII thành ký tự
+    encoded_text = ''.join([chr(num) for num in encoded_chars])
+    
+    return encoded_text
+
 def obfcode(s):
     newline = "\n"
-    XD = ''.join(f"""+chr(ord('\\n') + {int(ord(c) - ord(newline))})""" for c in s)
+    XD = ''.join(f"""+WANNACRY(chr({ord(encode(c))}))""" for c in s)
     code = f"""
 # https://github.com/werearecat/zeroobf
 # no name :)
+def WANNACRY(encoded_text):A=[ord(A)-3 for A in encoded_text];B=''.join([chr(A)for A in A]);C=B[::-1];return C
 exec(''{XD})
 """
-    code = code.replace("chr(ord('\\n') + 0)", "'\\n'") # new line
-
-    code = code.replace("chr(ord('\n') + 38)", """str(len(str("")))""") # 0
-    code = code.replace("chr(ord('\n') + 39)", "str(True + False + False + False + False + False + False + False + False + False)") # 1
-    code = code.replace("chr(ord('\\n') + 40)", "str(True + True + False + False + False + False + False + False + False + False)") # 2
-    code = code.replace("chr(ord('\\n') + 41)", """str(len(str("len")))""") # 3
-    code = code.replace("chr(ord('\\n') + 42)", """str(len(str("exec")))""") # 4
-    code = code.replace("chr(ord('\\n') + 43)", "str(True + True + True + True + True + False + False + False + False + False)") # 5
-    code = code.replace("chr(ord('\\n') + 44)", "str(True + True + True + True + True + True + False + False + False + False)") # 6
-    code = code.replace("chr(ord('\\n') + 45)", "str(len(str('1+1x2=1')))") # 7
-    code = code.replace("chr(ord('\\n') + 46)", "str(True + True + True + True + True + True + True + True + False + False)") # 8
-    code = code.replace("chr(ord('\\n') + 47)", "str(True + True + True + True + True + True + True + True + True + False)") # 9
-    
-    code = code.replace("True", "([]==[])").replace("False", "(()==[])")
-    return f"exec({str(code)})"
+    code = code.replace("chr(ord('\\n') + 0)", "'\\n'")
+    code = code.replace("WANNACRY", "'A'")
+    return code
 
 def main():
     parser = argparse.ArgumentParser(description='1line Obfuscator')
