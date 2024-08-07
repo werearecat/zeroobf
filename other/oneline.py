@@ -1,4 +1,15 @@
 import argparse
+import random
+
+def RandomChinaWord():
+    val = random.randint(0x4e00, 0x9fbf) 
+    return chr(val)
+
+def RandomChina(size: int):
+    words = ""
+    for i in range(size):
+        words += RandomChinaWord()
+    return words
 
 def encode(text):
     # Bước 1: Đảo ngược chuỗi
@@ -14,6 +25,9 @@ def encode(text):
 
 
 def obfcode(s):
+    
+    text = ''.join([chr(i) for i in range(0x4e00, 0x9fbf + 1)])
+    shuffled_text = ''.join(random.sample(text, len(text)))
     newline = "\n"
     XD = ''.join(f"""+WANNACRY({ord(encode(c))})""" for c in s)
     code = f"""
@@ -23,7 +37,9 @@ def WANNACRY(encoded_int):A=chr(encoded_int);B=[ord(A)-3 for A in A];C=''.join([
 exec(''{XD})
 """
     code = code.replace("WANNACRY(13)", "'\\n'")
-    code = code.replace("WANNACRY", "A")
+    code = code.replace("WANNACRY", RandomChina(4))
+    code = code.replace("encoded_int", RandomChina(5))
+    
     return code
 
 def main():
