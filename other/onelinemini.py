@@ -14,18 +14,59 @@ def RandomChina(size: int):
         words += RandomChinaWord()
     return words
 
+
 def encode(text):
     # Bước 1: Đảo ngược chuỗi
     reversed_text = text[::-1]
     
     # Bước 2: Chuyển đổi từng ký tự thành mã ASCII và cộng thêm một giá trị cố định (ví dụ 3)
-    encoded_chars = [(ord(char) + 3) for char in reversed_text]
+    encoded_chars = [(ord(char) + 30) for char in reversed_text]
     
     # Bước 3: Chuyển đổi lại mã ASCII thành ký tự
     encoded_text = ''.join([chr(num) for num in encoded_chars])
     
     return encoded_text
 
+
+def generate_long_expression(target, depth=15):
+    expression = str(target)
+    
+    for _ in range(depth):
+        operation = random.choice(['+', '-', '*', '/'])
+        next_number = random.randint(1, 10)
+        
+        # Đảm bảo không chia cho 0
+        if operation == '/':
+            # Đảm bảo phép chia không có phần dư
+            next_number = random.randint(1, 10)
+            if next_number == 0:
+                next_number = 1
+        
+        # Xây dựng biểu thức dài hơn
+        expression = f"({expression} {operation} {next_number})"
+        
+        # Cập nhật giá trị mục tiêu
+        if operation == '+':
+            target -= next_number
+        elif operation == '-':
+            target += next_number
+        elif operation == '*':
+            target /= next_number
+        elif operation == '/':
+            target *= next_number
+    
+    return expression
+
+def create_expression_with_target(target, depth=15):
+    while True:
+        expression = generate_long_expression(target, depth)
+        try:
+            if eval(expression) == target:
+                return expression
+        except ZeroDivisionError:
+            continue
+        except Exception as e:
+            print(f"Lỗi khi tạo biểu thức: {e}")
 
 def obfcode(s):
     
@@ -36,7 +77,7 @@ def obfcode(s):
 # no name :)
 def WANNACRY(encoded_text):
     # Bước 1: Chuyển đổi từng ký tự thành mã ASCII và trừ đi giá trị cố định (ví dụ 3)
-    decoded_chars = [(ord(char) - 3) for char in encoded_text]
+    decoded_chars = [(ord(char) - {create_expression_with_target(30)}) for char in encoded_text]
     
     # Bước 2: Chuyển đổi lại mã ASCII thành ký tự
     reversed_text = ''.join([chr(num) for num in decoded_chars])
