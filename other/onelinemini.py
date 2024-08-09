@@ -1,6 +1,18 @@
 import argparse
-# pip install python-minifier
-import python_minifier
+import random
+
+def string_to_hex(string):
+    return ''.join(f'\\x{ord(c):02x}' for c in string)
+
+def RandomChinaWord():
+    val = random.randint(0x4e00, 0x9fbf) 
+    return chr(val)
+
+def RandomChina(size: int):
+    words = ""
+    for i in range(size):
+        words += RandomChinaWord()
+    return words
 
 def encode(text):
     # Bước 1: Đảo ngược chuỗi
@@ -16,17 +28,30 @@ def encode(text):
 
 
 def obfcode(s):
+    
+    text = ''.join([chr(i) for i in range(0x4e00, 0x9fbf + 1)])
     newline = "\n"
-    XD = ''.join(f"""+WANNACRY({ord(encode(c))})""" for c in s)
     code = f"""
 # https://github.com/werearecat/zeroobf
 # no name :)
-def WANNACRY(encoded_int):A=chr(encoded_int);B=[ord(A)-3 for A in A];C=''.join([chr(A)for A in B]);D=C[::-1];return D
-exec(''{XD})
+def WANNACRY(encoded_text):
+    # Bước 1: Chuyển đổi từng ký tự thành mã ASCII và trừ đi giá trị cố định (ví dụ 3)
+    decoded_chars = [(ord(char) - 3) for char in encoded_text]
+    
+    # Bước 2: Chuyển đổi lại mã ASCII thành ký tự
+    reversed_text = ''.join([chr(num) for num in decoded_chars])
+    
+    # Bước 3: Đảo ngược chuỗi để phục hồi chuỗi gốc
+    original_text = reversed_text[::-1]
+    
+    return original_text
+exec(WANNACRY("{string_to_hex(encode(s))}"))
 """
     code = code.replace("WANNACRY(13)", "'\\n'")
-    code = code.replace("WANNACRY", "A")
-    return python_minifier.minify(code)
+    code = code.replace("WANNACRY", RandomChina(4))
+    code = code.replace("text", RandomChina(15))
+    
+    return code
 
 def main():
     parser = argparse.ArgumentParser(description='1line Obfuscator')
