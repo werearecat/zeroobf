@@ -4,48 +4,25 @@ import random
 def string_to_hex(string):
     return ''.join(f'\\x{ord(c):02x}' for c in string)
 
-def RandomChinaWord():
-    val = random.randint(0x4e00, 0x9fbf) 
-    return chr(val)
+def random_chinese_word():
+    return chr(random.randint(0x4e00, 0x9fbf))
 
-def RandomChina(size: int):
-    words = ""
-    for i in range(size):
-        words += RandomChinaWord()
-    return words
-
+def random_chinese(size):
+    return ''.join(random_chinese_word() for _ in range(size))
 
 def encode(text):
-    # Bước 1: Đảo ngược chuỗi
     reversed_text = text[::-1]
-    
-    # Bước 2: Chuyển đổi từng ký tự thành mã ASCII và cộng thêm một giá trị cố định (ví dụ 3)
     encoded_chars = [(ord(char) + 30) for char in reversed_text]
-    
-    # Bước 3: Chuyển đổi lại mã ASCII thành ký tự
-    encoded_text = ''.join([chr(num) for num in encoded_chars])
-    
-    return encoded_text
-
+    return ''.join(chr(num) for num in encoded_chars)
 
 def generate_long_expression(target, depth=15):
     expression = str(target)
-    
     for _ in range(depth):
         operation = random.choice(['+', '-', '*', '/'])
         next_number = random.randint(1, 10)
-        
-        # Đảm bảo không chia cho 0
         if operation == '/':
-            # Đảm bảo phép chia không có phần dư
-            next_number = random.randint(1, 10)
-            if next_number == 0:
-                next_number = 1
-        
-        # Xây dựng biểu thức dài hơn
+            next_number = max(1, random.randint(1, 10))  # Ensure non-zero divisor
         expression = f"({expression} {operation} {next_number})"
-        
-        # Cập nhật giá trị mục tiêu
         if operation == '+':
             target -= next_number
         elif operation == '-':
@@ -54,7 +31,6 @@ def generate_long_expression(target, depth=15):
             target /= next_number
         elif operation == '/':
             target *= next_number
-    
     return expression
 
 def create_expression_with_target(target, depth=15):
@@ -66,33 +42,27 @@ def create_expression_with_target(target, depth=15):
         except ZeroDivisionError:
             continue
         except Exception as e:
-            print(f"Lỗi khi tạo biểu thức: {e}")
+            print(f"Error creating expression: {e}")
 
-def obfcode(s):
+def obfuscate_code(source_code):
+    encoded_text = encode(source_code)
+    hex_encoded_text = string_to_hex(encoded_text)
     
-    text = ''.join([chr(i) for i in range(0x4e00, 0x9fbf + 1)])
-    newline = "\n"
-    code = f"""
+    obfuscated_code = f"""
 # https://github.com/werearecat/zeroobf
 # no name :)
-def WANNACRY(encoded_text):
-    # Bước 1: Chuyển đổi từng ký tự thành mã ASCII và trừ đi giá trị cố định (ví dụ 3)
+def obfuscated_function(encoded_text):
     decoded_chars = [(ord(char) - {create_expression_with_target(30)}) for char in encoded_text]
-    
-    # Bước 2: Chuyển đổi lại mã ASCII thành ký tự
-    reversed_text = ''.join([chr(num) for num in decoded_chars])
-    
-    # Bước 3: Đảo ngược chuỗi để phục hồi chuỗi gốc
-    original_text = reversed_text[::-1]
-    
-    return original_text
-exec(WANNACRY("{string_to_hex(encode(s))}"))
+    reversed_text = ''.join(chr(num) for num in decoded_chars)
+    return reversed_text[::-1]
+
+exec(obfuscated_function("{hex_encoded_text}"))
 """
-    code = code.replace("WANNACRY(13)", "'\\n'")
-    code = code.replace("WANNACRY", RandomChina(4))
-    code = code.replace("text", RandomChina(15))
+    obfuscated_code = obfuscated_code.replace("obfuscated_function(13)", "'\\n'")
+    obfuscated_code = obfuscated_code.replace("obfuscated_function", random_chinese(4))
+    obfuscated_code = obfuscated_code.replace("text", random_chinese(15))
     
-    return code
+    return obfuscated_code
 
 def main():
     parser = argparse.ArgumentParser(description='1line Obfuscator')
@@ -105,7 +75,7 @@ def main():
     with open(args.input, 'r', encoding='utf-8') as file:
         code = file.read()
     
-    obfuscated_code = obfcode(code)
+    obfuscated_code = obfuscate_code(code)
     
     print(f"Writing obfuscated code to: {args.output}")
     with open(args.output, 'w', encoding='utf-8') as file:
