@@ -1,19 +1,15 @@
 import argparse
 import random
 
-def string_to_hex(string):
-    return ''.join(f'\\x{ord(c):02x}' for c in string)
+def RandomChinaWord():
+    val = random.randint(0x4e00, 0x9fbf) 
+    return chr(val)
 
-def random_chinese_word():
-    return chr(random.randint(0x4e00, 0x9fbf))
-
-def random_chinese(size):
-    return ''.join(random_chinese_word() for _ in range(size))
-
-def encode(text):
-    reversed_text = text[::-1]
-    encoded_chars = [(ord(char) + 30) for char in reversed_text]
-    return ''.join(chr(num) for num in encoded_chars)
+def RandomChina(size: int):
+    words = ""
+    for i in range(size):
+        words += RandomChinaWord()
+    return words
 
 def generate_long_expression(target, depth=15):
     expression = str(target)
@@ -33,7 +29,7 @@ def generate_long_expression(target, depth=15):
             target *= next_number
     return expression
 
-def create_expression_with_target(target, depth=15):
+def create_expression_with_target(target, depth=25):
     while True:
         expression = generate_long_expression(target, depth)
         try:
@@ -44,25 +40,36 @@ def create_expression_with_target(target, depth=15):
         except Exception as e:
             print(f"Error creating expression: {e}")
 
-def obfuscate_code(source_code):
-    encoded_text = encode(source_code)
-    hex_encoded_text = string_to_hex(encoded_text)
+def encode(text):
+    # Bước 1: Đảo ngược chuỗi
+    reversed_text = text[::-1]
     
-    obfuscated_code = f"""
+    # Bước 2: Chuyển đổi từng ký tự thành mã ASCII và cộng thêm một giá trị cố định (ví dụ 3)
+    encoded_chars = [(ord(char) + 3) for char in reversed_text]
+    
+    # Bước 3: Chuyển đổi lại mã ASCII thành ký tự
+    encoded_text = ''.join([chr(num) for num in encoded_chars])
+    
+    return encoded_text
+
+
+def obfcode(s):
+    
+    text = ''.join([chr(i) for i in range(0x4e00, 0x9fbf + 1)])
+    shuffled_text = ''.join(random.sample(text, len(text)))
+    newline = "\n"
+    XD = ''.join(f"""+WANNACRY({create_expression_with_target(ord(encode(c)))})""" for c in s)
+    code = f"""
 # https://github.com/werearecat/zeroobf
 # no name :)
-def obfuscated_function(encoded_text):
-    decoded_chars = [(ord(char) - {create_expression_with_target(30)}) for char in encoded_text]
-    reversed_text = ''.join(chr(num) for num in decoded_chars)
-    return reversed_text[::-1]
-
-exec(obfuscated_function("{hex_encoded_text}"))
+def WANNACRY(encoded_int):A=chr(encoded_int);B=[ord(A)-3 for A in A];C=''.join([chr(A)for A in B]);D=C[::-1];return D
+exec(''{XD})
 """
-    obfuscated_code = obfuscated_code.replace("obfuscated_function(13)", "'\\n'")
-    obfuscated_code = obfuscated_code.replace("obfuscated_function", random_chinese(4))
-    obfuscated_code = obfuscated_code.replace("text", random_chinese(15))
+    code = code.replace("WANNACRY(13)", "'\\n'")
+    code = code.replace("WANNACRY", RandomChina(4))
+    code = code.replace("encoded_int", RandomChina(5))
     
-    return obfuscated_code
+    return code
 
 def main():
     parser = argparse.ArgumentParser(description='1line Obfuscator')
@@ -75,7 +82,7 @@ def main():
     with open(args.input, 'r', encoding='utf-8') as file:
         code = file.read()
     
-    obfuscated_code = obfuscate_code(code)
+    obfuscated_code = obfcode(code)
     
     print(f"Writing obfuscated code to: {args.output}")
     with open(args.output, 'w', encoding='utf-8') as file:
