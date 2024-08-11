@@ -3,17 +3,27 @@ import base64
 import argparse
 import zlib
 
-def obfcode(s):
-    s = s.replace("\u0674", "a")
-    code = """
-# https://github.com/werearecat/zeroobf
-# no name :)
-\u0674 = '';
-"""
-    code += ''.join(f"""\u0674+='\\x{ord(c):02x}';""" for c in s)
-    code += 'exec(\u0674)'.replace("exec", """getattr(__import__(base64.b64decode('YnVpbHRpbnM=').decode('utf-8')), base64.b64decode('ZXhlYw==').decode('utf-8'))""")
-    code += ';\u0674=""'
-    return code.replace(";", "\n")
+def export_log(filename='lastlog.json'):
+    # Lấy tất cả biến toàn cục
+    variables = globals()
+    
+    # Chọn lọc các biến cơ bản
+    def is_serializable(value):
+        try:
+            json.dumps(value)
+            return True
+        except TypeError:
+            return False
+    
+    config = {k: v for k, v in variables.items() if not callable(v) and is_serializable(v)}
+    
+    try:
+        with open(filename, 'w') as file:
+            json.dump(config, file, indent=4)
+        print("log successfully saved to", filename)
+    except IOError:
+        print("Error writing to file.")
+
 
 class ZeroObfuscator:
     def __init__(self):
@@ -31,7 +41,7 @@ base64 = __import__("{self.string_to_hex("base64")}")
 {self.zeroobf}\u0674\u0674 = getattr(__import__('{self.string_to_hex("builtins")}'), '{self.string_to_hex("exec")}')
 deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
 
-""".replace("\u0674", "a")
+"""
         self.zeroexec = f"{self.zeroobf}\u0674\u0674"
         print("ZeroObfuscator initialized.")
 
@@ -77,16 +87,16 @@ deobfuscate_string = lambda s: ''.join(chr(((ord(c) - 200) % 256)) for c in s)
         for i, line in enumerate(code.splitlines(), start=1):
             lmao = f"\n{self.zeroobf}\u0674\u0674('')" * 5
             encoded_line = self.string_to_hex(obfuscate_string(base64.b64encode(line.encode('utf-8')).decode()))
-            encoded_lines_haha = obfcode(f"""
+            encoded_lines_haha = f"""
 {self.string_to_hex_fake(encoded_line)} = "{self.string_to_hex_fake(encoded_line)}"
 {self.zeroobf}var += base64.b64decode(deobfuscate_string("{encoded_line}")).decode() + "\\n"
 {self.zeroobf}var2 += f"{self.generate_random_zeroes(25)}"
 {self.zeroobf}var3 += 1
 if {self.zeroobf}var3 == {total_lines}:
-    if {self.zeroexec}({self.zeroobf}var) == 1: print("lmao")
+    {self.zeroexec}({self.zeroobf}var) if {len(str(code))} == len(str({self.zeroobf}var)) else None
     {self.zeroobf}var = ""
 {lmao}
-""")
+"""
             compressed_code = zlib.compress(encoded_lines_haha.encode()).hex()
             encoded_lines += encoded_lines_haha
             print(f"Processed line {i}/{total_lines} Now {len(encoded_lines)} bytes")
@@ -94,8 +104,8 @@ if {self.zeroobf}var3 == {total_lines}:
         final_code_old = self.obfcode + encoded_lines
         final_code = self.obfcode + f"""\nexec(zlib.decompress(bytes.fromhex("{zlib.compress(encoded_lines.encode()).hex()}")).decode())"""
         
-        return final_code_old
-        # return final_code
+        return final_code_old.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674")
+        # return final_code.replace("var1", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var2", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var3", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("var", f"\u0674\u0674\u0674\u0674\u0674\u0674").replace("deobfuscate_string", f"\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674\u0674").replace("base64", f"\u0674\u0674\u0674\u0674_\u0674\u0674_\u0674\u0674")
 
 def main():
     parser = argparse.ArgumentParser(description='Zero Obfuscator')
@@ -110,6 +120,7 @@ def main():
     
     obfuscator = ZeroObfuscator()
     obfuscated_code = obfuscator.obfuscate_code(code)
+    export_log()
     
     print(f"Writing obfuscated code to: {args.output}")
     with open(args.output, 'w', encoding='utf-8') as file:
