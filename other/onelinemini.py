@@ -7,13 +7,13 @@ def encryptcode(codee):
     compiled_code = compile(codee, '<string>', 'exec')
     compressed_code = bz2.compress(marshal.dumps(compiled_code))
     compressed_code_str = repr(compressed_code)
-    return f"exec(__import__('marshal').loads(__import__('bz2').decompress({compressed_code_str})))"
+    return f"az='\n'*100;exec(__import__('marshal').loads(__import__('bz2').decompress({compressed_code_str})))"
 
 def obfuscate(content):
     b64_content = base64.b64encode(content.encode()).decode()
     index = 0
     OFFSET = 10
-    VARIABLE_NAME = "shit_" * 1000
+    VARIABLE_NAME = "___" * 1000
     code = f'{VARIABLE_NAME} = ""\n'
     for _ in range(int(len(b64_content) / OFFSET) + 1):
         _str = ''
