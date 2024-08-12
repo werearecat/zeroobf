@@ -42,7 +42,7 @@ def main():
         code = file.read()
     for _ in range(args.layer):
         code = obfuscate(code)
-        print(f"{_}\{args.layer} obfuscated")
+        print(f"{_}\{args.layer} obfuscated\n{len(code)} bytes!")
     
     print(f"Writing obfuscated code to: {args.output}")
     with open(args.output, 'w', encoding='utf-8') as file:
