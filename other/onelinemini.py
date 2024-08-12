@@ -31,18 +31,21 @@ def main():
     parser = argparse.ArgumentParser(description='1line Obfuscator')
     parser.add_argument('-i', '--input', required=True, help='Input file')
     parser.add_argument('-o', '--output', required=True, help='Output file')
-    
+    parser.add_argument('-l', '--layer', type=int, default=1, help='Obfuscation layer (default: 1)')
+
     args = parser.parse_args()
-    
+
+
+        
     print(f"Reading input file: {args.input}")
     with open(args.input, 'r', encoding='utf-8') as file:
         code = file.read()
-    
-    obfuscated_code = obfuscate(code)
+    for _ in range(args.layer):
+        code = obfuscate(code)
     
     print(f"Writing obfuscated code to: {args.output}")
     with open(args.output, 'w', encoding='utf-8') as file:
-        file.write(obfuscated_code)
+        file.write(code)
 
 if __name__ == '__main__':
     main()
