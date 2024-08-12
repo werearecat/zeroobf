@@ -1,6 +1,8 @@
 import base64
 import marshal
 import bz2
+import argparse
+
 def encryptcode(codee):
     compiled_code = compile(codee, '<string>', 'exec')
     compressed_code = bz2.compress(marshal.dumps(compiled_code))
@@ -36,7 +38,7 @@ def main():
     with open(args.input, 'r', encoding='utf-8') as file:
         code = file.read()
     
-    obfuscated_code = obfcode(code)
+    obfuscated_code = obfuscate(code)
     
     print(f"Writing obfuscated code to: {args.output}")
     with open(args.output, 'w', encoding='utf-8') as file:
