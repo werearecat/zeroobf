@@ -50,4 +50,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-Thay vì sài base64 thì hãy sài xor hoặc cái khác
