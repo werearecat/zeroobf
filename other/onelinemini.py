@@ -6,8 +6,8 @@ import argparse
 def encryptcode(codee):
     compiled_code = compile(codee, '<string>', 'exec')
     compressed_code = bz2.compress(marshal.dumps(compiled_code))
-    compressed_code_str = repr(compressed_code)
-    return f"exec(__import__('marshal').loads(__import__('bz2').decompress({compressed_code_str})))"
+    compressed_code_str = "[" + ",".join(map(repr(compressed_code), byte_values)) + "]"
+    return f"exec(__import__('marshal').loads(__import__('bz2').decompress(bytes({compressed_code_str}))))"
 
 def obfuscate(content):
     b64_content = base64.b64encode(content.encode()).decode()
