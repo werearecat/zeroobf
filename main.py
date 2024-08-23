@@ -21,7 +21,7 @@ def encryptcode(codee):
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({Generate_decode_string(str(compressed_code))})))"
+    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({Generate_decode_string(compressed_code.decode('latin1'))})))"
 
 def encryptcodegod(codee):
     for _ in range(5):
@@ -36,14 +36,11 @@ def main():
     
     args = parser.parse_args()
 
-    # Read the input file with UTF-8 encoding
     with open(args.input, 'r', encoding='utf-8') as infile:
         codee = infile.read()
 
-    # Encrypt the code
     encrypted_code = encryptcodegod(codee)
 
-    # Write the encrypted code to the output file with UTF-8 encoding
     with open(args.output, 'w', encoding='utf-8') as outfile:
         outfile.write(encrypted_code)
 
