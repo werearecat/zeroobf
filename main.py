@@ -26,7 +26,7 @@ def {c}():
         c{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
         cc{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
 
-    elif {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
+    elif '{c}' == '{c}':
         exec({c})
         {c} = {random.randint(99999, 9999999)}{random.randint(99999, 9999999)}{random.randint(99999, 9999999)}
 
