@@ -15,11 +15,10 @@ def encryptcode(codee):
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(marshal.loads(__import__('{name}').decompress({string_to_xor(compressed_code)})))"
+    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_xor(compressed_code)})))"
 
 def encryptcodegod(codee):
-    for _ in range(25):
+    for _ in range(5):
         codee = encryptcode(codee)
+        print(_)
     return codee
-
-print(encryptcodegod('print("hi")'))
