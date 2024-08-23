@@ -15,18 +15,6 @@ def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
     key = random.randint(1, 255)
     code_ = ''.join(chr(ord(c) ^ key) for c in codee)
-    junk2 = """
-expr1 = (((x - 3) * 4 + (x + 2)) ** 3 - ((x / 2) + 5) * (x % 4)) / (x - 2)
-expr2 = ((((x + 7) - 2) * 5) ** 2 + ((x * 3) + 8) * (x % 5)) / (x - 4)
-expr3 = (((x * 2 + 3) * 6 - (x + 5)) ** 2 + ((x / 3) - 7) * (x % 2)) / (x + 4)
-expr4 = (((x - 4) * 5 + 6) ** 2 - (x * 2) * (x % 4)) / (x + 3)
-expr5 = ((x / 2 + 8) * 3 - (x - 1)) ** 2 + ((x * 4) - 6) * (x % 6) / (x - 1)
-expr6 = (((x + 3) * 2 - (x - 6)) ** 2 + ((x * 5) + 4) * (x % 3)) / (x + 5)
-expr7 = (((x - 2) * 4 + 7) ** 3 - (x / 4) * (x % 5)) / (x + 2)
-expr8 = (((x * 3) - 8) * 2 + (x + 1)) ** 2 - ((x / 5) + 3) * (x % 7) / (x - 5)
-expr9 = (((x + 4) * 6 - 3) ** 2 + (x / 2) * (x % 4)) / (x + 1)
-expr10 = (((x * 2 + 9) - 6) * 3) ** 2 - ((x - 3) / 2) * (x % 5) / (x - 6)
-""" * 10
     data = f"""
 def {c}():
     {c} = {repr(code_)}
@@ -59,7 +47,6 @@ def {c}():
         a{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
         aa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
 
-{junk2}
 
 {c}()
     """
@@ -68,7 +55,7 @@ def {c}():
 
 
 def encryptcode(codee):
-    compiled_code = compile(codee, '<string>', 'exec')
+    compiled_code = compile(codee, 'zeroobf lmao', 'exec')
     methods = [
         ('bz2', bz2.compress, bz2.decompress),
         ('zlib', zlib.compress, zlib.decompress),
