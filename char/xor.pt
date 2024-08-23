@@ -1,0 +1,8 @@
+import random
+
+def string_to_xor(string):
+    key1 = random.randint(5, 8)
+    key2 = random.randint(1, 2)
+    key = key1**key2
+    a = ''.join(chr(ord(c) ^ 5) for c in "Hello, XOR!") 
+    return ''.join(f'\\x{ord(c):02x}' for c in string)
