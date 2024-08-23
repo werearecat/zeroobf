@@ -6,6 +6,43 @@ import gzip
 import lzma
 import marshal
 
+def junk(codee):
+    c = 'a' + str(random.randint(999999999999, 99999999999999))
+    data = f"""
+def {c}():
+    {repr(codee)}
+    if {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
+        print({random.randint(99999, 9999999)})
+        aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+        print({random.randint(99999, 9999999)})
+        bbb{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+        aa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+        z{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        zz{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+        c{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        cc{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+    elif {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
+        exec({c}.__doc__)
+
+        aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+        bbb{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        aa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        x{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        xx{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+        a{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        aa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+
+{c}()
+    """
+    return data
+
 def string_to_xor(byte_string):
     key = random.randint(1, 255)
     a = bytes([b ^ key for b in byte_string])
@@ -24,10 +61,10 @@ def encryptcode(codee):
     return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_xor(compressed_code)})))"
 
 def encryptcodegod(codee):
-    for _ in range(5):
+    for _ in range(2):
         codee = encryptcode(codee)
         print(f"Layer {_}")
-    return codee
+    return junk(codee)
 
 def main():
     parser = argparse.ArgumentParser(description="Encrypt Python code using various compression methods.")
