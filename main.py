@@ -1,9 +1,15 @@
-import random, bz2, zlib, gzip, lzma, marshal
+import argparse
+import random
+import bz2
+import zlib
+import gzip
+import lzma
+import marshal
 
-def string_to_xor(byte_string):
-    key = random.randint(1, 255)
-    a = bytes([b ^ key for b in byte_string])
-    return f"bytes([b ^ {key} for b in {list(a)}])"
+def Generate_decode_bytes(byte_string):
+    num = random.randint(1000000, 9999999)
+    encoded = bytes([b + num for b in byte_string])
+    return f"bytes([b - {num} for b in {repr(encoded)}])"
 
 def encryptcode(codee):
     compiled_code = compile(codee, '<string>', 'exec')
@@ -15,10 +21,31 @@ def encryptcode(codee):
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_xor(compressed_code)})))"
+    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({Generate_decode_bytes(compressed_code)})))"
 
 def encryptcodegod(codee):
     for _ in range(5):
         codee = encryptcode(codee)
-        print(_)
+        print(f"Layer {_}")
     return codee
+
+def main():
+    parser = argparse.ArgumentParser(description="Encrypt Python code using various compression methods.")
+    parser.add_argument('-i', '--input', type=str, required=True, help="Input file containing Python code.")
+    parser.add_argument('-o', '--output', type=str, required=True, help="Output file to save encrypted code.")
+    
+    args = parser.parse_args()
+
+    # Read the input file with UTF-8 encoding
+    with open(args.input, 'r', encoding='utf-8') as infile:
+        codee = infile.read()
+
+    # Encrypt the code
+    encrypted_code = encryptcodegod(codee)
+
+    # Write the encrypted code to the output file with UTF-8 encoding
+    with open(args.output, 'w', encoding='utf-8') as outfile:
+        outfile.write(encrypted_code)
+
+if __name__ == "__main__":
+    main()
