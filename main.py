@@ -63,9 +63,10 @@ def encryptcode(codee):
 
 def encryptcodegod(codee):
     for _ in range(2):
+        codee = junk(codee)
         codee = encryptcode(codee)
         print(f"Layer {_}")
-    return junk(codee)
+    return codee
 
 def main():
     parser = argparse.ArgumentParser(description="Encrypt Python code using various compression methods.")
