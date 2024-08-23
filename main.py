@@ -6,10 +6,10 @@ import gzip
 import lzma
 import marshal
 
-def Generate_decode_bytes(byte_string):
+def Generate_decode_string(string):
     num = random.randint(1000000, 9999999)
-    encoded = bytes([b + num for b in byte_string])
-    return f"bytes([b - {num} for b in {repr(encoded)}])"
+    encoded = ''.join(chr(ord(c) + num) for c in string)
+    return f"''.join(chr(ord(c) - {num}) for c in {repr(encoded)})"
 
 def encryptcode(codee):
     compiled_code = compile(codee, '<string>', 'exec')
@@ -21,7 +21,7 @@ def encryptcode(codee):
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({Generate_decode_bytes(compressed_code)})))"
+    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({Generate_decode_string(str(compressed_code))})))"
 
 def encryptcodegod(codee):
     for _ in range(5):
