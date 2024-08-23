@@ -6,6 +6,11 @@ import gzip
 import lzma
 import marshal
 
+def string_to_xor(byte_string):
+    key = random.randint(1, 255)
+    a = bytes([b ^ key for b in byte_string])
+    return f"bytes([b ^ {key} for b in {list(a)}])"
+
 def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
     key = random.randint(1, 255)
@@ -46,10 +51,7 @@ def {c}():
     """
     return data
 
-def string_to_xor(byte_string):
-    key = random.randint(1, 255)
-    a = bytes([b ^ key for b in byte_string])
-    return f"bytes([b ^ {key} for b in {list(a)}])"
+
 
 def encryptcode(codee):
     compiled_code = compile(codee, '<string>', 'exec')
