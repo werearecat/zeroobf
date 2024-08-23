@@ -10,7 +10,7 @@ def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
     data = f"""
 def {c}():
-    {repr(codee)}
+    {c} = {repr(codee)}
     if {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
         print({random.randint(99999, 9999999)})
         aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
@@ -27,7 +27,8 @@ def {c}():
         cc{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
 
     elif {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
-        exec({c}.__doc__)
+        exec({c})
+        {c} = {random.randint(99999, 9999999)}{random.randint(99999, 9999999)}{random.randint(99999, 9999999)}
 
         aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
 
