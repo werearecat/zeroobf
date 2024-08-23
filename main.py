@@ -8,9 +8,10 @@ import marshal
 
 def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
+    code_ = ''.join(chr(ord(c) ^ 5) for c in codee)
     data = f"""
 def {c}():
-    {c} = {repr(codee)}
+    {c} = {repr(code_)}
     if {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
         print({random.randint(99999, 9999999)})
         aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
@@ -27,7 +28,7 @@ def {c}():
         cc{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
 
     elif '{c}' == '{c}':
-        exec({c})
+        exec(''.join(chr(ord(c) ^ 5) for c in {c}))
         {c} = {random.randint(99999, 9999999)}{random.randint(99999, 9999999)}{random.randint(99999, 9999999)}
 
         aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
