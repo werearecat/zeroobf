@@ -11,7 +11,16 @@ def string_to_xor(byte_string):
     a = bytes([b ^ key for b in byte_string][::-1])
     return f"bytes([b ^ {key} for b in {list(a)}][::-1])"
 
+def junk2(codee):
+    strong = codee * random.randint(2, 5)
+    var = repr(strong)
+    data = f"""
+exec(str({var})[0:{len(codee)}])
+    """
+    return data
+
 def junk(codee):
+    codee = junk2(codee)
     c = 'a' + str(random.randint(999999999999, 99999999999999))
     key = random.randint(1, 255)
     code_ = ''.join(chr(ord(c) ^ key) for c in codee)
