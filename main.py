@@ -67,6 +67,7 @@ def encryptcode(codee):
     return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_xor(compressed_code)})))"
 
 def encryptcodegod(codee):
+    codee = junk(codee)
     for _ in range(2):
         codee = junk(codee)
         codee = encryptcode(codee)
