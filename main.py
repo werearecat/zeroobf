@@ -5,19 +5,11 @@ import zlib
 import gzip
 import lzma
 import marshal
+import base64
 
-def string_to_xor(byte_string):
-    key = random.randint(1, 255)
-    a = bytes([b ^ key for b in byte_string][::-1])
-    return f"bytes([b ^ {key} for b in {list(a)}][::-1])"
-
-def junk2(codee):
-    strong = codee * random.randint(1, 3)
-    var = repr(strong)
-    data = f"""
-exec(str({var})[0:{len(codee)}])
-    """
-    return data
+def string_to_lzma(byte_string):
+    a = lzma.compress(byte_string)
+    return f"lzma.decompress({repr(a)})"
 
 def junk(codee):
     codee = junk2(codee)
@@ -73,7 +65,7 @@ def encryptcode(codee):
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_xor(compressed_code)})))"
+    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_lzma(compressed_code)})))"
 
 def encryptcodegod(codee):
     for _ in range(2):
