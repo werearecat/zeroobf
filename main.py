@@ -12,7 +12,7 @@ def string_to_xor(byte_string):
     return f"bytes([b ^ {key} for b in {list(a)}][::-1])"
 
 def junk2(codee):
-    strong = codee * random.randint(2, 5)
+    strong = codee * random.randint(1, 3)
     var = repr(strong)
     data = f"""
 exec(str({var})[0:{len(codee)}])
