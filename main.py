@@ -10,11 +10,16 @@ import base64
 def reverse_bytes(byte_string):
     return byte_string[::-1]
 
+def string_to_xor(byte_string):
+    key = random.randint(1, 255)
+    a = bytes([b ^ key for b in byte_string][::-1])
+    return f"bytes([b ^ {key} for b in {list(a)}][::-1])"
+
 def string_to_lzma(byte_string):
     reversed_bytes = reverse_bytes(byte_string)
     compressed = lzma.compress(reversed_bytes)
     reversed_compressed = reverse_bytes(compressed)
-    return f"lzma.decompress({repr(reversed_compressed)}[::-1])[::-1]"
+    return f"lzma.decompress({string_to_xor(reversed_compressed)}[::-1])[::-1]"
 
 def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
