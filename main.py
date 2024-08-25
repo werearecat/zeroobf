@@ -71,6 +71,7 @@ def encryptcodegod(codee):
         codee = junk(codee)
         codee = encryptcode(codee)
         print(f"Layer {_}")
+    codee = "# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
     return codee
 
 def main():
