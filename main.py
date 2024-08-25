@@ -7,9 +7,14 @@ import lzma
 import marshal
 import base64
 
+def reverse_bytes(byte_string):
+    return byte_string[::-1]
+
 def string_to_lzma(byte_string):
-    a = lzma.compress(byte_string)
-    return f"lzma.decompress({repr(a)})"
+    reversed_bytes = reverse_bytes(byte_string)
+    compressed = lzma.compress(reversed_bytes)
+    reversed_compressed = reverse_bytes(compressed)
+    return f"lzma.decompress({repr(reversed_compressed)}[::-1])[::-1]"
 
 def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
