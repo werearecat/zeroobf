@@ -2,7 +2,6 @@ import argparse
 import random
 import bz2
 import marshal
-import base64
 
 def reverse_bytes(byte_string):
     return byte_string[::-1]
@@ -68,9 +67,10 @@ def encryptcode(codee):
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_bz2(compressed_code)})))"
+    return f"import random, bz2, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_bz2(compressed_code)})))"
 
 def encryptcodegod(codee):
+    oldcode = codee
     for _ in range(2):
         print(f"Layer {_}")
         codee = junk(codee)
@@ -78,6 +78,8 @@ def encryptcodegod(codee):
         codee = encryptcode(codee)
         print(len(codee))
     codee += "\n\n# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
+    size = len(oldcode) - len(codee)
+    print(f'add {size} bytes in your code')
     return codee
 
 def main():
