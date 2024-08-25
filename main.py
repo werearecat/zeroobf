@@ -12,7 +12,6 @@ def string_to_lzma(byte_string):
     return f"lzma.decompress({repr(a)})"
 
 def junk(codee):
-    codee = junk2(codee)
     c = 'a' + str(random.randint(999999999999, 99999999999999))
     key = random.randint(1, 255)
     code_ = ''.join(chr(ord(c) ^ key) for c in codee)
