@@ -78,7 +78,7 @@ def encryptcodegod(codee):
         codee = encryptcode(codee)
         print(len(codee))
     codee += "\n\n# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
-    size = len(oldcode) - len(codee)
+    size = len(codee) - len(oldcode)
     print(f'add {size} bytes in your code')
     return codee
 
