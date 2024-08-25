@@ -23,7 +23,6 @@ def string_to_lzma(byte_string):
 
 def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
-    key = random.randint(1, 255)
     code_ = string_to_lzma(codee.encode())
     data = f"""
 def {c}():
@@ -44,7 +43,7 @@ def {c}():
         cc{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
 
     elif '{c}' == '{c}':
-        exec(''.join(chr(ord(c) ^ {key}) for c in {c}))
+        exec({c})
         {c} = {random.randint(99999, 9999999)}{random.randint(99999, 9999999)}{random.randint(99999, 9999999)}
 
         aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
