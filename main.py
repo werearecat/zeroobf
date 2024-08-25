@@ -1,9 +1,6 @@
 import argparse
 import random
 import bz2
-import zlib
-import gzip
-import lzma
 import marshal
 import base64
 
@@ -15,15 +12,15 @@ def string_to_xor(byte_string):
     a = bytes([b ^ key for b in byte_string][::-1])
     return f"bytes([b ^ {key} for b in {list(a)}][::-1])"
 
-def string_to_lzma(byte_string):
+def string_to_bz2(byte_string):
     reversed_bytes = reverse_bytes(byte_string)
-    compressed = lzma.compress(reversed_bytes)
+    compressed = bz2.compress(reversed_bytes)
     reversed_compressed = reverse_bytes(compressed)
-    return f"lzma.decompress({string_to_xor(reversed_compressed)}[::-1])[::-1]"
+    return f"bz2.decompress({string_to_xor(reversed_compressed)}[::-1])[::-1]"
 
 def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
-    code_ = string_to_lzma(codee.encode())
+    code_ = string_to_bz2(codee.encode())
     data = f"""
 def {c}():
     {c} = {code_}
@@ -67,19 +64,19 @@ def encryptcode(codee):
     compiled_code = compile(codee, 'zeroobf lmao', 'exec')
     methods = [
         ('bz2', bz2.compress, bz2.decompress),
-        ('zlib', zlib.compress, zlib.decompress),
-        ('gzip', gzip.compress, gzip.decompress),
-        ('lzma', lzma.compress, lzma.decompress)
+        ('bz2', bz2.compress, bz2.decompress)
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_lzma(compressed_code)})))"
+    return f"import random, bz2, zlib, gzip, lzma, marshal\nexec(__import__('marshal').loads(__import__('{name}').decompress({string_to_bz2(compressed_code)})))"
 
 def encryptcodegod(codee):
     for _ in range(2):
-        codee = junk(codee)
-        codee = encryptcode(codee)
         print(f"Layer {_}")
+        codee = junk(codee)
+        print(len(codee))
+        codee = encryptcode(codee)
+        print(len(codee))
     codee += "\n\n# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
     return codee
 
