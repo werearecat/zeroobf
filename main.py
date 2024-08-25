@@ -8,8 +8,8 @@ import marshal
 
 def string_to_xor(byte_string):
     key = random.randint(1, 255)
-    a = bytes([b ^ key for b in byte_string])
-    return f"bytes([b ^ {key} for b in {list(a)}])"
+    a = bytes([b ^ key for b in byte_string][::-1])
+    return f"bytes([b ^ {key} for b in {list(a)}][::-1])"
 
 def junk(codee):
     c = 'a' + str(random.randint(999999999999, 99999999999999))
@@ -71,7 +71,7 @@ def encryptcodegod(codee):
         codee = junk(codee)
         codee = encryptcode(codee)
         print(f"Layer {_}")
-    codee = "# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
+    codee += "# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
     return codee
 
 def main():
