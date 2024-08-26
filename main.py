@@ -30,7 +30,7 @@ def RandomChina(size: int):
     return words
 
 def junk(codee):
-    c = RandomChina(25)
+    c = RandomChina(4)
     code_ = string_to_bz2(codee.encode())
     data = f"""
 def {c}():
