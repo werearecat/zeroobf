@@ -19,40 +19,50 @@ def string_to_bz2(byte_string):
     reversed_compressed = reverse_bytes(compressed)
     return f"bz2.decompress({string_to_xor(reversed_compressed)}[::{xd}])[::{xd}]"
 
+def RandomChinaWord():
+    val = random.randint(0x4e00, 0x9fbf) 
+    return chr(val)
+
+def RandomChina(size: int):
+    words = ""
+    for i in range(size):
+        words += RandomChinaWord()
+    return words
+
 def junk(codee):
-    c = 'a' + str(random.randint(999999999999, 99999999999999))
+    c = 'a' + {RandomChina(1000)}
     code_ = string_to_bz2(codee.encode())
     data = f"""
 def {c}():
     {c} = {code_}
     if {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
         print({random.randint(99999, 9999999)})
-        aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(1000)} = {random.randint(99999, 9999999)}
 
         print({random.randint(99999, 9999999)})
-        bbb{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
 
-        aa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
 
-        z{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
-        zz{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
 
-        c{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
-        cc{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
 
     elif '{c}' == '{c}':
         exec({c})
         {c} = {random.randint(99999, 9999999)}{random.randint(99999, 9999999)}{random.randint(99999, 9999999)}
 
-        aaa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
 
-        bbb{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
-        aa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
-        x{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
-        xx{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
 
-        a{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
-        aa{random.randint(99999, 9999999)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
+        {RandomChina(5)} = {random.randint(99999, 9999999)}
 
 
 {c}()
