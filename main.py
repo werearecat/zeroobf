@@ -73,6 +73,7 @@ def encryptcode(codee):
 
 def encryptcodegod(codee):
     oldcode = codee
+    codee = encryptcode(codee)
     for _ in range(2):
         print(f"Layer {_}")
         codee = junk(codee)
