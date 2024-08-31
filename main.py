@@ -30,42 +30,19 @@ def RandomChina(size: int):
     return words
 
 def junk(codee):
-    c = RandomChina(4)
+    lay = [RandomChina(4),RandomChina(5),RandomChina(6),RandomChina(7),RandomChina(8)]
+    random.shuffle(lay)
+    c = lay[1]
+    cc = lay[2]
+    ccc = lay[3]
     code_ = string_to_bz2(codee.encode())
     data = f"""
 def {c}():
-    {c} = {code_}
-    if {random.randint(99999, 9999999)} == {random.randint(99999, 9999999)}:
-        print({random.randint(99999, 9999999)})
-        {RandomChina(1000)} = {random.randint(99999, 9999999)}
+    return {code_}
 
-        print({random.randint(99999, 9999999)})
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-
-    elif '{c}' == '{c}':
-        exec({c})
-        {c} = {random.randint(99999, 9999999)}{random.randint(99999, 9999999)}{random.randint(99999, 9999999)}
-
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-        {RandomChina(5)} = {random.randint(99999, 9999999)}
-
-
-{c}()
+{ccc} = compile
+{cc} = exec
+{cc}({ccc}({c}(), 'zeroobf lmao', 'exec'))
     """
     return data
 
@@ -83,6 +60,7 @@ def encryptcode(codee):
 
 def encryptcodegod(codee):
     oldcode = codee
+    code = encryptcode(codee)
     for _ in range(2):
         print(f"Layer {_}")
         codee = junk(codee)
