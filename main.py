@@ -12,8 +12,13 @@ def string_to_xor(byte_string):
     xd = "([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])"
     return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
 
+def hidden_int(int):
+    a = str(int).encode()
+    a = string_to_xor(a)
+    return f"int({a})"
+
 def string_to_bz2(byte_string):
-    xd = "([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) + ([]==[]) - ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])"
+    xd = f"{hidden_int(100)} - {hidden_int(99)}"
     reversed_bytes = reverse_bytes(byte_string)
     compressed = bz2.compress(reversed_bytes)
     reversed_compressed = reverse_bytes(compressed)
