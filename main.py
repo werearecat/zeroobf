@@ -45,6 +45,11 @@ def junk(codee):
 def {c}():
     return {code_}
 
+{hidden_int(random.randint(1, 255))}
+{hidden_int(random.randint(1, 255))}
+{hidden_int(random.randint(1, 255))}
+{hidden_int(random.randint(1, 255))}
+{hidden_int(random.randint(1, 255))}
 {ccc} = compile
 {cc} = exec
 {cc}({ccc}({c}(), 'zeroobf lmao', 'exec'))
