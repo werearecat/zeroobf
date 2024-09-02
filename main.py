@@ -10,6 +10,8 @@ def string_to_xor(byte_string):
     key = random.randint(1, 255)
     a = bytes([b ^ key for b in byte_string][::-1])
     xd = "([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])"
+    pack =  bz2.compress(xd.encode())
+    xd = f"eval(bz2.decompress({repr(pack)}))"
     return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
 
 def hidden_int(int):
