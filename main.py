@@ -6,8 +6,8 @@ import marshal
 def reverse_bytes(byte_string):
     return byte_string[::-1]
 
-def pack(int):
-    pack =  bz2.compress(int.encode())
+def pack(string):
+    pack =  bz2.compress(string.encode())
     xd = f"eval(bz2.decompress({repr(pack)}))"
     return xd
 
@@ -20,7 +20,7 @@ def string_to_xor(byte_string):
 def hidden_int(int):
     a = str(int).encode()
     a = string_to_xor(a)
-    return pack(f"int({a})")
+    return int({a})
 
 def string_to_bz2(byte_string):
     xd = f"{hidden_int(-1)}"
@@ -47,12 +47,9 @@ def junk(codee):
     ccc = lay[3]
     code_ = string_to_bz2(codee.encode())
     data = f"""
-def {c}():
-    return {code_}
-
 {ccc} = compile
 {cc} = exec
-{cc}({ccc}({c}(), 'zeroobf lmao', 'exec'))
+{cc}({ccc}({code_}, 'zeroobf lmao', 'exec'))
     """
     return data
 
