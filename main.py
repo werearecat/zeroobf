@@ -7,10 +7,9 @@ def reverse_bytes(byte_string):
     return byte_string[::-1]
 
 def hidden_int(int):
-    a = "a" * int
-    a = a.encode()
+    a = int.encode()
     a = bz2.compress(a)
-    return f"len(bz2.decompress({repr(a)}))"
+    return f"int(str(bz2.decompress({repr(a)})))"
 
 def string_to_xor(byte_string):
     key = random.randint(1, 255)
