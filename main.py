@@ -6,18 +6,21 @@ import marshal
 def reverse_bytes(byte_string):
     return byte_string[::-1]
 
+def pack(int):
+    pack =  bz2.compress(int.encode())
+    xd = f"eval(bz2.decompress({repr(pack)}))"
+    return xd
+
 def string_to_xor(byte_string):
     key = random.randint(1, 255)
     a = bytes([b ^ key for b in byte_string][::-1])
-    xd = "([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])"
-    pack =  bz2.compress(xd.encode())
-    xd = f"eval(bz2.decompress({repr(pack)}))"
+    xd = pack("([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])")
     return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
 
 def hidden_int(int):
     a = str(int).encode()
     a = string_to_xor(a)
-    return f"int({a})"
+    return pack(f"int({a})")
 
 def string_to_bz2(byte_string):
     xd = f"{hidden_int(-1)}"
