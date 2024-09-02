@@ -6,10 +6,10 @@ import marshal
 def reverse_bytes(byte_string):
     return byte_string[::-1]
 
-def hidden_int(int):
-    a = str(int).encode()
+def hidden_int(int_value):
+    a = str(int_value).encode()
     a = bz2.compress(a)
-    return f"int(str(bz2.decompress({repr(a)})))"
+    return f"int(bz2.decompress({repr(a)}).decode())"
 
 def string_to_xor(byte_string):
     key = random.randint(1, 255)
