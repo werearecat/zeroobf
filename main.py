@@ -8,18 +8,14 @@ def reverse_bytes(byte_string):
 
 def pack(int):
     pack =  bz2.compress(int.encode())
-    key = random.randint(1, 255)
-    Xor = bytes([b ^ key for b in pack])
-    Xor = f"bytes([b ^ {key} for b in {list(Xor)}])"
-    xd = f"eval(bz2.decompress({Xor}))"
+    xd = f"eval(bz2.decompress({repr(pack)}))"
     return xd
 
 def string_to_xor(byte_string):
     key = random.randint(1, 255)
     a = bytes([b ^ key for b in byte_string][::-1])
     xd = pack("([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])")
-    lm = pack(f"int({key})")
-    return f"bytes([b ^ {lm} for b in {list(a)}][::{xd}])"
+    return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
 
 def hidden_int(int):
     a = str(int).encode()
