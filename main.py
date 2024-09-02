@@ -7,7 +7,7 @@ def reverse_bytes(byte_string):
     return byte_string[::-1]
 
 def hidden_int(int):
-    a = int.encode()
+    a = str(int).encode()
     a = bz2.compress(a)
     return f"int(str(bz2.decompress({repr(a)})))"
 
