@@ -6,16 +6,19 @@ import marshal
 def reverse_bytes(byte_string):
     return byte_string[::-1]
 
+def hidden_int(int):
+    a = "a" * int
+    a = a.encode()
+    a = bz2.compress(a)
+    return f"len(bz2.decompress({repr(a)}))"
+
 def string_to_xor(byte_string):
     key = random.randint(1, 255)
     a = bytes([b ^ key for b in byte_string][::-1])
-    xd = "([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])"
+    xd = hidden_int(key)
     return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
 
-def hidden_int(int):
-    a = str(int).encode()
-    a = string_to_xor(a)
-    return f"int({a})"
+
 
 def string_to_bz2(byte_string):
     xd = f"{hidden_int(-1)}"
