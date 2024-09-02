@@ -20,7 +20,7 @@ def string_to_xor(byte_string):
 def hidden_int(int):
     a = str(int).encode()
     a = string_to_xor(a)
-    return int({a})
+    return f"int({a})"
 
 def string_to_bz2(byte_string):
     xd = f"{hidden_int(-1)}"
