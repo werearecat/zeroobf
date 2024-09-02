@@ -8,7 +8,7 @@ def reverse_bytes(byte_string):
 
 def pack(string):
     pack =  bz2.compress(string.encode())
-    xd = f"eval(bz2.decompress({repr(pack)}))"
+    xd = f"eval(bz2.decompress(bytes({list(pack)})))"
     return xd
 
 def string_to_xor(byte_string):
