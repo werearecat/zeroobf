@@ -40,8 +40,8 @@ def RandomChina(size: int):
     return words
 
 def scammer(codee):
-    l = list([hash(str(i)) for i in range(random.randint(1, 25), 256)])
-    ll = list([hash(str(i)) for i in range(random.randint(1, 25), 256)])
+    l = str([hash(str(i)) for i in range(random.randint(1, 25), 400)])
+    ll = str([hash(str(i)) for i in range(random.randint(1, 25), 400)])
     code = "import bz2, marshal\n" + l + "\n" + codee + "\n" + ll
     return code
 
