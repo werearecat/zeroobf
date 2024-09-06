@@ -67,8 +67,8 @@ def rename_var(code):
 def junk(codee):
     text = codee
     mid = len(text) // 2
-    part1 = text[:mid]
-    part2 = text[mid:]
+    part1 = text[:mid].encode()
+    part2 = text[mid:].encode()
     data = f"""
 water = compile
 fire = exec
