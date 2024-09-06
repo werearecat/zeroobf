@@ -2,6 +2,9 @@ import argparse
 import random
 import bz2
 import marshal
+import ast
+
+
 
 def reverse_bytes(byte_string):
     return byte_string[::-1]
@@ -39,7 +42,27 @@ def RandomChina(size: int):
         words += RandomChinaWord()
     return words
 
+def rename_var(code):
+    class RenameVariableTransformer(ast.NodeTransformer):
+        def __init__(self):
+            self.var_map = {}
 
+        def visit_Name(self, node):
+            if isinstance(node.ctx, ast.Store) or isinstance(node.ctx, ast.Load):
+                if node.id not in self.var_map:
+                    self.var_map[node.id] = RandomChina(25)
+                node.id = self.var_map[node.id]
+            return node
+
+    # Phân tích cú pháp của mã nguồn
+    tree = ast.parse(code)
+    transformer = RenameVariableTransformer()
+    new_tree = transformer.visit(tree)
+    ast.fix_missing_locations(new_tree)
+    
+    # Chuyển đổi cây cú pháp đã thay đổi thành mã nguồn
+    new_code = astor.to_source(new_tree)
+    return new_code
 
 def junk(codee):
     lay = [RandomChina(4),RandomChina(5),RandomChina(6),RandomChina(7),RandomChina(8)]
@@ -73,13 +96,15 @@ def encryptcodegod(codee):
     for _ in range(2):
         print(f"Layer {_}")
         codee = junk(codee)
+        codee = rename_var(codee)
         print(len(codee))
         codee = encryptcode(codee)
+        codee = rename_var(codee)
         print(len(codee))
     codee += "\n\n# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
     size = len(codee) - len(oldcode)
     print(f'add {size} bytes in your code')
-    return codee
+    return rename_var(codee)
 
 def main():
     parser = argparse.ArgumentParser(description="Encrypt Python code using various compression methods.")
