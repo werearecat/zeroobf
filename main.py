@@ -31,7 +31,7 @@ def string_to_bz2(byte_string):
     reversed_bytes = reverse_bytes(byte_string)
     compressed = bz2.compress(reversed_bytes)
     reversed_compressed = reverse_bytes(compressed)
-    return f"bz2.decompress({string_to_xor(reversed_compressed)}[::{xd}])[::{xd}]"
+    return f"{import_gen('bz2')}.decompress({string_to_xor(reversed_compressed)}[::{xd}])[::{xd}]"
 
 def RandomChinaWord():
     val = random.randint(0x4e00, 0x9fbf) 
