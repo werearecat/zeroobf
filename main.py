@@ -39,11 +39,7 @@ def RandomChina(size: int):
         words += RandomChinaWord()
     return words
 
-def scammer(codee):
-    l = str([hash(str(i)) for i in range(random.randint(1, 25), 400)])
-    ll = str([hash(str(i)) for i in range(random.randint(1, 25), 400)])
-    code = "import bz2, marshal\n" + l + "\n" + codee + "\n" + ll
-    return code
+
 
 def junk(codee):
     lay = [RandomChina(4),RandomChina(5),RandomChina(6),RandomChina(7),RandomChina(8)]
@@ -83,7 +79,7 @@ def encryptcodegod(codee):
     codee += "\n\n# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
     size = len(codee) - len(oldcode)
     print(f'add {size} bytes in your code')
-    return scammer(codee)
+    return codee
 
 def main():
     parser = argparse.ArgumentParser(description="Encrypt Python code using various compression methods.")
