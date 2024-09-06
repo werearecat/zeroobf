@@ -8,7 +8,7 @@ def reverse_bytes(byte_string):
 
 def pack(string):
     pack =  bz2.compress(string.encode())
-    xd = f"eval(bz2.decompress(bytes({list(pack)})))"
+    xd = f"eval(bz2.decompress(bytes.fromhex({repr(pack.hex())})))"
     return xd
 
 def string_to_xor(byte_string):
@@ -23,6 +23,7 @@ def hidden_int(int):
     return f"int({a})"
 
 def string_to_bz2(byte_string):
+    print(byte_string.hex())
     xd = f"{hidden_int(-1)}"
     reversed_bytes = reverse_bytes(byte_string)
     compressed = bz2.compress(reversed_bytes)
@@ -51,7 +52,7 @@ def junk(codee):
     c = lay[1]
     cc = lay[2]
     ccc = lay[3]
-    code_ = string_to_bz2(codee.encode())
+    code_ = pack(codee.encode())
     data = f"""
 {ccc} = compile
 {cc} = exec
