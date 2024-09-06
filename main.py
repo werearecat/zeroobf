@@ -3,7 +3,7 @@ import random
 import bz2
 import marshal
 import ast
-
+import astor
 
 
 def reverse_bytes(byte_string):
@@ -67,14 +67,14 @@ def rename_var(code):
 def junk(codee):
     text = codee
     mid = len(text) // 2
-    part1 = text[:mid].encode()
+    part1 = text[:mid]
     part2 = text[mid:].encode()
     data = f"""
 water = compile
 fire = exec
-earth = {pack(bz2.compress(part1))}
+earth = {pack(part1)}
 wind = {string_to_xor(bz2.compress(part2))}
-fire(water(bz2.decompress(earth) + bz2.decompress(wind), 'zeroobf lmao', 'exec'))
+fire(water(earth + bz2.decompress(wind), 'zeroobf lmao', 'exec'))
     """
     return data
 
