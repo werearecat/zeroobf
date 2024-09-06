@@ -7,8 +7,8 @@ def reverse_bytes(byte_string):
     return byte_string[::-1]
 
 def pack(string):
-    pack =  bz2.compress(string.encode())
-    xd = f"eval(bz2.decompress(bytes.fromhex({repr(pack.hex())})))"
+    pack =  string.encode()
+    xd = f"eval(bytes.fromhex({repr(pack.hex())}))"
     return xd
 
 def string_to_xor(byte_string):
@@ -51,7 +51,7 @@ def junk(codee):
     c = lay[1]
     cc = lay[2]
     ccc = lay[3]
-    code_ = pack(codee.encode())
+    code_ = pack(codee)
     data = f"""
 {ccc} = compile
 {cc} = exec
