@@ -23,7 +23,6 @@ def hidden_int(int):
     return f"int({a})"
 
 def string_to_bz2(byte_string):
-    print(byte_string.hex())
     xd = f"{hidden_int(-1)}"
     reversed_bytes = reverse_bytes(byte_string)
     compressed = bz2.compress(reversed_bytes)
