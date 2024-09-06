@@ -50,7 +50,7 @@ def junk(codee):
     c = lay[1]
     cc = lay[2]
     ccc = lay[3]
-    code_ = pack(codee)
+    code_ = string_to_bz2(codee.encode())
     data = f"""
 {ccc} = compile
 {cc} = exec
