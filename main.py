@@ -65,16 +65,16 @@ def rename_var(code):
     return new_code
 
 def junk(codee):
-    lay = [RandomChina(4),RandomChina(5),RandomChina(6),RandomChina(7),RandomChina(8)]
-    random.shuffle(lay)
-    c = lay[1]
-    cc = lay[2]
-    ccc = lay[3]
-    code_ = pack(codee)
+    text = codee
+    mid = len(text) // 2
+    part1 = text[:mid]
+    part2 = text[mid:]
     data = f"""
-{ccc} = compile
-{cc} = exec
-{cc}({ccc}({code_}, 'zeroobf lmao', 'exec'))
+water = compile
+fire = exec
+earth = {pack(bz2.compress(part1))}
+wind = {string_to_xor(bz2.compress(part2))}
+fire(water(bz2.decompress(earth) + bz2.decompress(wind), 'zeroobf lmao', 'exec'))
     """
     return data
 
