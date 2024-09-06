@@ -2,12 +2,13 @@ import argparse
 import random
 import bz2
 import marshal
-import ast
-import astor
-
 
 def reverse_bytes(byte_string):
     return byte_string[::-1]
+
+
+def import_gen(name):
+    return f"__import__(bytes({list(name.encode())}).decode())"
 
 def pack(string):
     pack =  string.encode()
@@ -42,39 +43,18 @@ def RandomChina(size: int):
         words += RandomChinaWord()
     return words
 
-def rename_var(code):
-    class RenameVariableTransformer(ast.NodeTransformer):
-        def __init__(self):
-            self.var_map = {}
-
-        def visit_Name(self, node):
-            if isinstance(node.ctx, ast.Store) or isinstance(node.ctx, ast.Load):
-                if node.id not in self.var_map:
-                    self.var_map[node.id] = RandomChina(25)
-                node.id = self.var_map[node.id]
-            return node
-
-    # Phân tích cú pháp của mã nguồn
-    tree = ast.parse(code)
-    transformer = RenameVariableTransformer()
-    new_tree = transformer.visit(tree)
-    ast.fix_missing_locations(new_tree)
-    
-    # Chuyển đổi cây cú pháp đã thay đổi thành mã nguồn
-    new_code = astor.to_source(new_tree)
-    return new_code
 
 def junk(codee):
-    text = codee
-    mid = len(text) // 2
-    part1 = text[:mid]
-    part2 = text[mid:].encode()
+    lay = [RandomChina(4),RandomChina(5),RandomChina(6),RandomChina(7),RandomChina(8)]
+    random.shuffle(lay)
+    c = lay[1]
+    cc = lay[2]
+    ccc = lay[3]
+    code_ = pack(codee)
     data = f"""
-water = compile
-fire = exec
-earth = {pack(part1)}
-wind = {string_to_xor(bz2.compress(part2))}
-fire(water(earth + bz2.decompress(wind), 'zeroobf lmao', 'exec'))
+{ccc} = compile
+{cc} = exec
+{cc}({ccc}({code_}, 'zeroobf lmao', 'exec'))
     """
     return data
 
@@ -88,7 +68,7 @@ def encryptcode(codee):
     ]
     name, compress_func, _ = random.choice(methods)
     compressed_code = compress_func(marshal.dumps(compiled_code))
-    return f"exec(__import__('marshal').loads(__import__('{name}').decompress({string_to_bz2(compressed_code)})))"
+    return f"exec({import_gen('marshal')}.loads({import_gen(name)}.decompress({string_to_bz2(compressed_code)})))"
 
 def encryptcodegod(codee):
     oldcode = codee
@@ -96,15 +76,13 @@ def encryptcodegod(codee):
     for _ in range(2):
         print(f"Layer {_}")
         codee = junk(codee)
-        codee = rename_var(codee)
         print(len(codee))
         codee = encryptcode(codee)
-        codee = rename_var(codee)
         print(len(codee))
     codee += "\n\n# thank you my tootls \n# hai1723 repo: github.com/werearecat/zeroobf"
     size = len(codee) - len(oldcode)
     print(f'add {size} bytes in your code')
-    return rename_var(codee)
+    return codee
 
 def main():
     parser = argparse.ArgumentParser(description="Encrypt Python code using various compression methods.")
