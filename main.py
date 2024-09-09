@@ -2,6 +2,7 @@ import argparse
 import random
 import bz2
 import marshal
+import sys
 
 def reverse_bytes(byte_string):
     return byte_string[::-1]
@@ -33,15 +34,9 @@ def string_to_bz2(byte_string):
     reversed_compressed = reverse_bytes(compressed)
     return f"{import_gen('bz2')}.decompress({string_to_xor(reversed_compressed)}[::{xd}])[::{xd}]"
 
-def RandomChinaWord():
-    val = random.randint(0x4e00, 0x9fbf) 
-    return chr(val)
 
 def RandomChina(size: int):
-    words = ""
-    for i in range(size):
-        words += RandomChinaWord()
-    return words
+    return "".join(random.choices([chr(x) for x in range(sys.maxunicode) if chr(x).isidentifier()], k=random.randint(1, size)))
 
 
 def junk(codee):
