@@ -7,6 +7,8 @@ import sys
 def reverse_bytes(byte_string):
     return byte_string[::-1]
 
+def RandomChina(size: int):
+    return "".join(random.choices([chr(x) for x in range(sys.maxunicode) if chr(x).isidentifier()], k=random.randint(1, size)))
 
 def import_gen(name):
     return f"__import__(bytes({list(name.encode())}).decode())"
@@ -35,8 +37,7 @@ def string_to_bz2(byte_string):
     return f"{import_gen('bz2')}.decompress({string_to_xor(reversed_compressed)}[::{xd}])[::{xd}]"
 
 
-def RandomChina(size: int):
-    return "".join(random.choices([chr(x) for x in range(sys.maxunicode) if chr(x).isidentifier()], k=random.randint(1, size)))
+
 
 
 def junk(codee):
