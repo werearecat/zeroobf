@@ -10,20 +10,28 @@ def reverse_bytes(byte_string):
 def RandomChina(size: int):
     return "".join(random.choices([chr(x) for x in range(sys.maxunicode) if chr(x).isidentifier()], k=random.randint(1, size)))
 
-
+def import_gen(name):
+    return f"__import__(bytes({list(name.encode())}).decode())"
 
 def pack(string):
+    pack =  string.encode()
+    xd = f"eval(bytes.fromhex({repr(pack.hex())}))"
+    return xd
+
+def encryptstring(string):
     if isinstance(string, bytes):
         pack =  string[::-1]
-        xd = f"eval(bytes({list(pack)}[::-1]))"
+        xd = f"bytes({list(pack)}[::-1])"
         return xd
     elif isinstance(string, str):
         pack =  string[::-1].encode()
-        xd = f"eval(bytes({list(pack)}[::-1]).decode())"
+        xd = f"bytes({list(pack)}[::-1]).decode()"
         return xd
 
 def getexec():
-    xd = f"getattr(__import__({pack('builtins')}), {pack('exec'))"
+    s = encryptstring("builtins")
+    ss = encryptstring("exec")
+    xd = f"getattr(__import__(bytes({s}).decode()), {ss})"
     return xd
 
 def string_to_xor(byte_string):
@@ -31,9 +39,6 @@ def string_to_xor(byte_string):
     a = bytes([b ^ key for b in byte_string][::-1])
     xd = pack("([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])")
     return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
-
-def import_gen(name):
-    return f"__import__({pack(name)}.decode())"
 
 def hidden_int(int):
     a = str(int).encode()
