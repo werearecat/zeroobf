@@ -24,7 +24,7 @@ def string_to_xor(byte_string):
     return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
 
 def import_gen(name):
-    return f"__import__({string_to_xor(name.encode())}).decode()"
+    return f"__import__({string_to_xor(name.encode())}.decode())"
 
 def hidden_int(int):
     a = str(int).encode()
