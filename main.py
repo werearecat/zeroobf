@@ -13,8 +13,17 @@ def RandomChina(size: int):
 
 
 def pack(string):
-    pack =  string.encode()
-    xd = f"eval(bytes.fromhex({repr(pack.hex())}))"
+    if isinstance(string, bytes):
+        pack =  string[::-1]
+        xd = f"eval(bytes({list(pack)}[::-1]))"
+        return xd
+    elif isinstance(string, str):
+        pack =  string[::-1].encode()
+        xd = f"eval(bytes({list(pack)}[::-1]).decode())"
+        return xd
+
+def getexec():
+    xd = f"getattr(__import__({pack('builtins')}), {pack('exec'))"
     return xd
 
 def string_to_xor(byte_string):
@@ -24,7 +33,7 @@ def string_to_xor(byte_string):
     return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
 
 def import_gen(name):
-    return f"__import__({string_to_xor(name.encode())}.decode())"
+    return f"__import__({pack(name)}.decode())"
 
 def hidden_int(int):
     a = str(int).encode()
