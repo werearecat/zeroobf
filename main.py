@@ -28,10 +28,8 @@ def encryptstring(string):
         xd = f"bytes({list(pack)}[::-1]).decode()"
         return xd
 
-def getexec():
-    s = encryptstring("builtins")
-    ss = encryptstring("exec")
-    xd = f"getattr(__import__(bytes({s}).decode()), {ss})"
+def getexec(s):
+    xd = f"getattr(__import__(bytes([115, 110, 105, 116, 108, 105, 117, 98][::-1]).decode()), bytes([108, 97, 118, 101][::-1]).decode())(bytes([99, 101, 120, 101][::-1]))({repr(s)})"
     return xd
 
 def string_to_xor(byte_string):
@@ -85,6 +83,7 @@ def encryptcode(codee):
 def encryptcodegod(codee):
     oldcode = codee
     code = encryptcode(codee)
+    code = getexec(codee)
     for _ in range(2):
         print(f"Layer {_}")
         codee = junk(codee)
