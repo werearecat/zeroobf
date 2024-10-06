@@ -32,8 +32,13 @@ def getexec(s):
     xd = f"getattr(__import__(bytes([115, 110, 105, 116, 108, 105, 117, 98][::-1]).decode()), bytes([108, 97, 118, 101][::-1]).decode())(bytes([99, 101, 120, 101][::-1]))({repr(s)})"
     return xd
 
+def listencrypt(listl):
+    ot = list(str(list(listl)).encode())
+    out = f"eval(bytes({ot}))"
+    return out
+
 def byte_to_bytel(byte_string):
-    a = list(byte_string)[::-1]
+    a = listencrypt(byte_string)[::-1]
     return f"bytes({a}[::-1])"
 
 def hidden_int(int):
