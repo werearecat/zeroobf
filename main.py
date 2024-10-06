@@ -32,15 +32,13 @@ def getexec(s):
     xd = f"getattr(__import__(bytes([115, 110, 105, 116, 108, 105, 117, 98][::-1]).decode()), bytes([108, 97, 118, 101][::-1]).decode())(bytes([99, 101, 120, 101][::-1]))({repr(s)})"
     return xd
 
-def string_to_xor(byte_string):
-    key = random.randint(1, 255)
-    a = bytes([b ^ key for b in byte_string][::-1])
-    xd = pack("([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) + ([]==[]) - ([]==[]) - ([]==[])")
-    return f"bytes([b ^ {key} for b in {list(a)}][::{xd}])"
+def byte_to_bytel(byte_string):
+    a = list(byte_string)[::-1]
+    return f"bytes({a}[::-1])"
 
 def hidden_int(int):
     a = str(int).encode()
-    a = string_to_xor(a)
+    a = byte_to_bytel(a)
     return f"int({a})"
 
 def string_to_bz2(byte_string):
@@ -48,7 +46,7 @@ def string_to_bz2(byte_string):
     reversed_bytes = reverse_bytes(byte_string)
     compressed = bz2.compress(reversed_bytes)
     reversed_compressed = reverse_bytes(compressed)
-    return f"{import_gen('bz2')}.decompress({string_to_xor(reversed_compressed)}[::{xd}])[::{xd}]"
+    return f"{import_gen('bz2')}.decompress({byte_to_bytel(reversed_compressed)}[::{xd}])[::{xd}]"
 
 
 
