@@ -35,7 +35,7 @@ def getexec(s):
 def listencrypt(listl):
     ot = list(str(list(listl)).encode())
     out = f"eval(bytes({ot}))"
-    return out
+    return out.replace("32","30+2")
 
 def byte_to_bytel(byte_string):
     a = listencrypt(list(byte_string)[::-1])
