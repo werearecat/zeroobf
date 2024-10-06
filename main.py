@@ -38,7 +38,7 @@ def listencrypt(listl):
     return out
 
 def byte_to_bytel(byte_string):
-    a = listencrypt(byte_string)[::-1]
+    a = listencrypt(list(byte_string)[::-1])
     return f"bytes({a}[::-1])"
 
 def hidden_int(int):
