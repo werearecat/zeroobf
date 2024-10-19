@@ -33,8 +33,9 @@ def getexec(s):
     return xd
 
 def listencrypt(listl):
-    ot = list(str(list(listl)).encode())
-    out = f"eval(bytes({ot}))"
+    xor = lambda a, b: bytes(x ^ y for x, y in zip(a, b))
+    result = xor(str(listl).encode(), b"YOUCODE")  # Ensure "YOUCODE" is bytes
+    out = f"eval((lambda a, b: bytes(x ^ y for x, y in zip(a, b)))({repr(result)}, b'YOUCODE'))"
     return out
 
 def byte_to_bytel(byte_string):
